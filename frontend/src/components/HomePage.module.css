@@ -1,5 +1,5 @@
 .home {
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   flex-direction: column;
   position: relative;
@@ -69,4 +69,8 @@
 
 .searchContainer > * {
   pointer-events: all;
+}
+
+.popularDestination{
+  padding: 0 10vw;
 }
