@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import styles from './PopularDestinations.module.css';
+import styles from './RecommendedPlaces.module.css';
 import PopularDestinationsCard from './cards/PopularDestinationsCard';
 import bankeBihari from '../images/bankeBihari.jpg';
 import chandraodayaMandir from '../images/chandraodayaMandir.jpg';
@@ -7,17 +7,17 @@ import premMandir from '../images/premMandir.jpg';
 import tajMahal from '../images/tajMahal.jpg';
 
 const destinations = [
-    { id: 1, name: 'Banke Bihari', image: bankeBihari },
-    { id: 2, name: 'Chandraodaya Mandir', image: chandraodayaMandir },
     { id: 3, name: 'Prem Mandir', image: premMandir },
     { id: 4, name: 'Taj Mahal', image: tajMahal },
+    { id: 1, name: 'Banke Bihari', image: bankeBihari },
+    { id: 2, name: 'Chandraodaya Mandir', image: chandraodayaMandir },
     { id: 5, name: 'Banke Bihari', image: bankeBihari },
     { id: 6, name: 'Chandraodaya Mandir', image: chandraodayaMandir },
     { id: 7, name: 'Prem Mandir', image: premMandir },
     { id: 8, name: 'Taj Mahal', image: tajMahal }
 ];
 
-const PopularDestinations = () => {
+const RecommendedPlaces = () => {
     const scrollContainerRef = useRef(null);
 
     const scroll = (direction) => {
@@ -35,7 +35,7 @@ const PopularDestinations = () => {
         <div className={styles.container}>
             <div className={styles.upper}>
                 <div className={styles.heading}>
-                    <div className={styles.title}>Popular Destinations</div>
+                    <div className={styles.title}>Recommended Destinations</div>
                     <div className={styles.subtitle}>From historical cities to natural spectaculars, come see the best of the world!</div>
                 </div>
                 <div className={styles.navigation}>
@@ -59,4 +59,4 @@ const PopularDestinations = () => {
     );
 };
 
-export default PopularDestinations;
+export default RecommendedPlaces;
