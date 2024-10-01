@@ -4,40 +4,37 @@ import { Link, useNavigate } from "react-router-dom";
 import { GiCancel } from "react-icons/gi";
 import backimg from '../images/background.jpg';
 
-const Signup = () => {
+const Signin = () => {
     const [data, setData] = useState({
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
+        email: "",
+        password: "",
     });
     const [error, setError] = useState("");
     const navigate = useNavigate();
-  
+
     const handleChange = ({ currentTarget: input }) => {
-      setData({ ...data, [input.name]: input.value });
+        setData({ ...data, [input.name]: input.value });
     };
-  
+
     const handleSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        const url = "http://localhost:8000/handleUserSignup";
-        const { data: res } = await axios.post(url, data);
-        navigate("/");
-        console.log(res.message);
-      } catch (error) {
-        if (
-          error.response &&
-          error.response.status >= 400 &&
-          error.response.status <= 500
-        ) {
-          setError(error.response.data.message);
+        e.preventDefault();
+        try {
+            const url = "http://localhost:8080/api/auth";
+            const { data: res } = await axios.post(url, data);
+            navigate("/");
+            console.log(res.message);
+        } catch (error) {
+            if (
+                error.response &&
+                error.response.status >= 400 &&
+                error.response.status <= 500
+            ) {
+                setError(error.response.data.message);
+            }
         }
-      }
     };
 
     return (
-
         <div className="w-full h-full flex items-center justify-center relative">
             <div className="w-full h-full flex flex-col">
                 <div className="h-[68vh] w-full relative flex items-center justify-center">
@@ -49,34 +46,16 @@ const Signup = () => {
                     <div className="bg-gray-100 flex items-center justify-center w-full h-full rounded-lg shadow-lg">
                         <div className="flex w-full h-full rounded-lg">
                             <div className="flex flex-col items-center justify-center bg-gradient-to-r from-orange-400 to-orange-600 rounded-l-lg w-[36%]">
-                                <h1 className="text-white text-3xl">Welcome Back</h1>
-                                <Link to="/signin">
+                                <h1 className="text-white text-3xl">Welcome</h1>
+                                <Link to="/signup">
                                     <button className="mt-4 w-[180px] py-3 bg-white rounded-full font-bold text-sm text-center cursor-pointer">
-                                        Sign in
+                                        Sign Up
                                     </button>
                                 </Link>
                             </div>
                             <div className="flex-2 flex flex-col items-center justify-center bg-white rounded-r-lg w-[64%]">
                                 <form className="flex flex-col items-center" onSubmit={handleSubmit}>
-                                    <h1 className="text-4xl mb-4">Create Account</h1>
-                                    <input
-                                        type="text"
-                                        placeholder="First Name"
-                                        name="firstName"
-                                        onChange={handleChange}
-                                        value={data.firstName}
-                                        required
-                                        className="w-[370px] py-4 px-3 bg-gray-100 rounded-lg mb-2 text-sm"
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Last Name"
-                                        name="lastName"
-                                        onChange={handleChange}
-                                        value={data.lastName}
-                                        required
-                                        className="w-[370px] py-4 px-3 bg-gray-100 rounded-lg mb-2 text-sm"
-                                    />
+                                    <h1 className="text-4xl mb-4">Sign In</h1>
                                     <input
                                         type="email"
                                         placeholder="Email"
@@ -97,7 +76,7 @@ const Signup = () => {
                                     />
                                     {error && <div className="w-[370px] py-4 px-3 bg-red-600 text-white rounded-lg text-center mb-2">{error}</div>}
                                     <button type="submit" className="w-[180px] py-3 bg-gradient-to-r from-orange-400 to-orange-600 text-white rounded-full font-bold text-sm mt-4 cursor-pointer">
-                                        Sign Up
+                                        Sign In
                                     </button>
                                 </form>
                             </div>
@@ -114,4 +93,4 @@ const Signup = () => {
     );
 };
 
-export default Signup;
+export default Signin;

@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/', )
 router.post('/:id/booknow', handleCreateBookingById);
-router.patch('/:id/booknow/:bookingId', handleUpdateBookingById);
+// router.patch('/:id/booknow/:bookingId', handleUpdateBookingById);
 router.delete('/:id/booknow/:bookingId', handleDeleteBookingById);
 
 

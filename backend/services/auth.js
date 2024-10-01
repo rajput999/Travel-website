@@ -4,7 +4,6 @@ require("dotenv").config();
 function setUser(user) {
   return jwt.sign(
     {
-      Username: user.name,
       Email: user.email,
     },
     process.env.JWT_SECRET,
@@ -13,15 +12,14 @@ function setUser(user) {
 
 function getUser(token) {
   if (!token) return null;
-  try{
-      return jwt.verify(token, process.env.JWT_SECRET);
-  }
-  catch (error) {
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch (error) {
     return null;
   }
 }
 
-function getToken(authHeader){
+function getToken(authHeader) {
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return null;
   }

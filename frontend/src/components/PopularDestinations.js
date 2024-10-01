@@ -6,14 +6,49 @@ import premMandir from '../images/premMandir.jpg';
 import tajMahal from '../images/tajMahal.jpg';
 
 const destinations = [
-    { id: 1, name: 'Banke Bihari', image: bankeBihari },
-    { id: 2, name: 'Chandraodaya Mandir', image: chandraodayaMandir },
-    { id: 3, name: 'Prem Mandir', image: premMandir },
-    { id: 4, name: 'Taj Mahal', image: tajMahal },
-    { id: 5, name: 'Banke Bihari', image: bankeBihari },
-    { id: 6, name: 'Chandraodaya Mandir', image: chandraodayaMandir },
-    { id: 7, name: 'Prem Mandir', image: premMandir },
-    { id: 8, name: 'Taj Mahal', image: tajMahal }
+    { 
+        id: 1, 
+        name: 'Banke Bihari', 
+        image: bankeBihari,
+        photos: [bankeBihari, chandraodayaMandir, premMandir], // Add more photos here
+        description: "Banke Bihari Temple is a Hindu temple dedicated to Krishna in the holy city of Vrindavan in the Mathura district of Uttar Pradesh. It is one of the most revered shrines in the country."
+    },
+    { 
+        id: 2, 
+        name: 'Chandraodaya Mandir', 
+        image: chandraodayaMandir,
+        photos: [chandraodayaMandir, premMandir, tajMahal], // Add more photos here
+        description: "The Chandrodaya Mandir is a temple under construction in Vrindavan, Mathura, India. At a planned height of 700 feet, it will be the tallest religious monument in the world when completed."
+    },
+    { 
+        id: 3, 
+        name: 'Prem Mandir', 
+        image: premMandir,
+        photos: [premMandir, chandraodayaMandir, premMandir], // Add more photos here
+        description: "Banke Bihari Temple is a Hindu temple dedicated to Krishna in the holy city of Vrindavan in the Mathura district of Uttar Pradesh. It is one of the most revered shrines in the country."
+    },
+    { 
+        id: 4, 
+        name: 'Taj Mahal', 
+        image: tajMahal,
+        photos: [tajMahal, premMandir, tajMahal], // Add more photos here
+        description: "The Chandrodaya Mandir is a temple under construction in Vrindavan, Mathura, India. At a planned height of 700 feet, it will be the tallest religious monument in the world when completed."
+    },
+    { 
+        id: 5, 
+        name: 'Banke Bihari', 
+        image: bankeBihari,
+        photos: [bankeBihari, chandraodayaMandir, premMandir], // Add more photos here
+        description: "Banke Bihari Temple is a Hindu temple dedicated to Krishna in the holy city of Vrindavan in the Mathura district of Uttar Pradesh. It is one of the most revered shrines in the country."
+    },
+    { 
+        id: 6, 
+        name: 'Chandraodaya Mandir', 
+        image: chandraodayaMandir,
+        photos: [chandraodayaMandir, premMandir, tajMahal], // Add more photos here
+        description: "The Chandrodaya Mandir is a temple under construction in Vrindavan, Mathura, India. At a planned height of 700 feet, it will be the tallest religious monument in the world when completed."
+    },
+
 ];
 
 const PopularDestinations = () => {

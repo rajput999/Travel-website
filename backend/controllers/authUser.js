@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const {getUser, setUser} = require("../services/auth");
 const jwt = require("jsonwebtoken");
-// require("dotenv").config();
+require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 
@@ -79,50 +79,52 @@ async function handleVerifyEmail(req, res) {
 }
 
 async function handleUserSignup(req, res) {
-  const { Username, Email, Password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   try {
-    if (!Username) {
-      return res.status(400).json({ message: "Username is required" });
-    } else if (!Email) {
+    if (!firstName) {
+      return res.status(400).json({ message: "First name is required" });
+    } else if (!lastName) {
+      return res.status(400).json({ message: "Last name is required" });
+    } else if (!email) {
       return res.status(400).json({ message: "Email is required" });
-    } else if (!Password) {
+    } else if (!password) {
       return res.status(400).json({ message: "Password is required" });
     }
+
     // Check if the email already exists
-    const existingEmail = await User.findOne({ email: Email });
-    const existingUser = await User.findOne({ name: Username });
+    const existingEmail = await User.findOne({ email: email });
     if (existingEmail) {
       return res
         .status(400)
         .json({ message: "User with this email already exists." });
-    } else if (existingUser) {
-      return res.status(400).json({ message: "Username already exists." });
     }
 
-    // Create a new user instance (not saved yet)
+    // Hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create a new user instance
     const newUser = new User({
-      name: Username,
-      email: Email,
-      password: Password,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: hashedPassword,
       isVerified: false,
     });
     await newUser.save();
 
     // Send verification email
-    await sendVerificationEmail(Email);
+    await sendVerificationEmail(email);
 
     const token = setUser(newUser);
 
     // Set the token in the Authorization header
     res.setHeader('Authorization', `Bearer ${token}`);
 
-    // Save the new user to the database
-    res
-      .status(201)
-      .json({
-        message: "User signed up successfully. Verification email sent.",
-      });
+    res.status(201).json({
+      message: "User signed up successfully. Verification email sent.",
+    });
   } catch (error) {
     console.error("Error signing up user:", error);
     res.status(500).json({ message: "Internal server error." });
@@ -130,30 +132,22 @@ async function handleUserSignup(req, res) {
 }
 
 async function handleUserSignin(req, res) {
-  const { Username, Email, Password } = req.body;
-  let user;
+  const { email, password } = req.body;
 
-  if (!Username && !Email) {
-    return res.status(400).json({ message: "Username or Email is required" });
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
   }
 
   try {
-    if (Email) {
-      user = await User.findOne({ email: Email });
-      if (!user) {
-        return res.status(400).json({ message: "Email is not registered" });
-      }
-      if (user.password !== Password) {
-        return res.status(400).json({ message: "Invalid Email or Password" });
-      }
-    } else {
-      user = await User.findOne({ name: Username }); // Ensure this field matches your DB schema
-      if (!user) {
-        return res.status(400).json({ message: "Username not exist" });
-      }
-      if (user.password !== Password) {
-        return res.status(400).json({ message: "Invalid Username or Password" });
-      }
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(400).json({ message: "Email is not registered" });
+    }
+
+    // Compare hashed passwords
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(400).json({ message: "Invalid Email or Password" });
     }
 
     const token = setUser(user);
@@ -162,12 +156,12 @@ async function handleUserSignin(req, res) {
     res.setHeader('Authorization', `Bearer ${token}`);
 
     return res.status(200).json({ message: "Sign in successful" });
-
   } catch (error) {
     console.error('Error during sign-in:', error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 }
+
 
 async function giveUserForToken(req,res){
   const userUId = req.headers["authorization"];

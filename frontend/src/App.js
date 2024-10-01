@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import HomePage from './components/HomePage.js';
 import Footer from './components/Footer';
 import Signup from './components/SignUp';
+import Signin from './components/SignIn';
 
 const App = () => {
   useEffect(() => {
@@ -19,13 +20,14 @@ const App = () => {
   const location = useLocation(); // Get the current location
 
   return (
-    <div>
+    <div className=''>
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/signin" element={<Signin />} />
       </Routes>
-      {location.pathname !== '/signup' && <Footer />} {/* Conditionally render the Footer */}
+      {(location.pathname !== '/signup' || location.pathname !== '/signup') && <Footer />} {/* Conditionally render the Footer */}
     </div>
   );
 }
