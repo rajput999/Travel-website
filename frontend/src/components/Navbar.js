@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styles from './Navbar.module.css';
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
@@ -10,28 +9,27 @@ const Navbar = () => {
   };
 
   return (
-    <header className={styles.navbar}>
-      <div className={styles.logo}>Travel.</div>
-      <nav className={isOpen ? styles.open : ''}>
-        <ul>
-          <Link to='/'><li>Home</li></Link>
-          <li>Packages</li>
-          <li>About</li>
-          <li>Pages</li>
-          <li>Contact</li>
+    <header className="flex justify-between items-center bg-white/1 backdrop-blur-md p-2 md:p-4 absolute w-full top-0 z-10 box-border">
+      <div className="text-2xl font-bold text-white transition-transform transform hover:scale-110">Travel.</div>
+      <nav className={`flex md:flex-row flex-col ${isOpen ? 'fixed inset-x-0 top-12 md:static opacity-100 translate-y-0' : 'hidden md:flex'} bg-gray-50 md:bg-transparent text-white md:static md:translate-y-0 md:opacity-100 md:transition-none transition-all duration-500`}>
+        <ul className="flex md:flex-row flex-col text-center md:text-left font-semibold text-xl md:text-base space-y-4 md:space-y-0 md:space-x-8 py-4 md:py-0">
+          <Link to='/'><li className="cursor-pointer transition-colors hover:text-orange-500 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-orange-500 after:w-0 hover:after:w-full after:transition-all">Home</li></Link>
+          <li className="cursor-pointer transition-colors hover:text-orange-500 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-orange-500 after:w-0 hover:after:w-full after:transition-all">Packages</li>
+          <li className="cursor-pointer transition-colors hover:text-orange-500 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-orange-500 after:w-0 hover:after:w-full after:transition-all">About</li>
+          <li className="cursor-pointer transition-colors hover:text-orange-500 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-orange-500 after:w-0 hover:after:w-full after:transition-all">Pages</li>
+          <li className="cursor-pointer transition-colors hover:text-orange-500 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-orange-500 after:w-0 hover:after:w-full after:transition-all">Contact</li>
         </ul>
       </nav>
-      <div>
+      <div className="flex items-center">
         <Link to='signup'>
-          <button className={styles.signUp}>Sign Up</button>
+          <button className="font-semibold text-base text-white border-2 border-orange-500 py-2 px-6 rounded-full hover:bg-orange-500 hover:text-white transition-colors duration-300">Sign Up</button>
         </Link>
-        <button className={styles.bookNow}>BOOK NOW</button>
+        <button className="ml-4 font-semibold text-base bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-6 rounded-full hover:scale-105 transform transition-transform duration-300 hidden md:inline">BOOK NOW</button>
       </div>
-      
-      <div className={styles.hamburger} onClick={toggleMenu}>
-        <div className={styles.bar}></div>
-        <div className={styles.bar}></div>
-        <div className={styles.bar}></div>
+      <div className="md:hidden flex flex-col cursor-pointer" onClick={toggleMenu}>
+        <div className="w-6 h-[3px] bg-gray-900 mb-1 transition-all"></div>
+        <div className="w-6 h-[3px] bg-gray-900 mb-1 transition-all"></div>
+        <div className="w-6 h-[3px] bg-gray-900 transition-all"></div>
       </div>
     </header>
   );

@@ -25,18 +25,18 @@ const Footer = () => {
 
       <div className="flex flex-col justify-start h-full">
         <div className="text-lg font-bold mb-4">Information</div>
-        <div className="text-gray-600 font-semibold mb-2 transition ease-in-out duration-300 hover:text-orange-600 hover:translate-x-1">Home</div>
-        <div className="text-gray-600 font-semibold mb-2 transition ease-in-out duration-300 hover:text-orange-600 hover:translate-x-1">Explore</div>
-        <div className="text-gray-600 font-semibold mb-2 transition ease-in-out duration-300 hover:text-orange-600 hover:translate-x-1">Travel</div>
-        <div className="text-gray-600 font-semibold mb-2 transition ease-in-out duration-300 hover:text-orange-600 hover:translate-x-1">Blog</div>
+        <div className="cursor-pointer text-gray-600 font-semibold mb-2 transition ease-in-out duration-300 hover:text-orange-600 hover:translate-x-1">Home</div>
+        <div className="cursor-pointer text-gray-600 font-semibold mb-2 transition ease-in-out duration-300 hover:text-orange-600 hover:translate-x-1">Explore</div>
+        <div className="cursor-pointer text-gray-600 font-semibold mb-2 transition ease-in-out duration-300 hover:text-orange-600 hover:translate-x-1">Travel</div>
+        <div className="cursor-pointer text-gray-600 font-semibold mb-2 transition ease-in-out duration-300 hover:text-orange-600 hover:translate-x-1">Blog</div>
       </div>
 
       <div className="flex flex-col justify-start h-full">
         <div className="text-lg font-bold mb-4">Helpful Links</div>
-        <div className="text-gray-600 font-semibold mb-2 transition ease-in-out duration-300 hover:text-orange-600 hover:translate-x-1">Destination</div>
-        <div className="text-gray-600 font-semibold mb-2 transition ease-in-out duration-300 hover:text-orange-600 hover:translate-x-1">Support</div>
-        <div className="text-gray-600 font-semibold mb-2 transition ease-in-out duration-300 hover:text-orange-600 hover:translate-x-1">Travel and Condition</div>
-        <div className="text-gray-600 font-semibold mb-2 transition ease-in-out duration-300 hover:text-orange-600 hover:translate-x-1">Privacy</div>
+        <div className="cursor-pointer text-gray-600 font-semibold mb-2 transition ease-in-out duration-300 hover:text-orange-600 hover:translate-x-1">Destination</div>
+        <div className="cursor-pointer text-gray-600 font-semibold mb-2 transition ease-in-out duration-300 hover:text-orange-600 hover:translate-x-1">Support</div>
+        <div className="cursor-pointer text-gray-600 font-semibold mb-2 transition ease-in-out duration-300 hover:text-orange-600 hover:translate-x-1">Travel and Condition</div>
+        <div className="cursor-pointer text-gray-600 font-semibold mb-2 transition ease-in-out duration-300 hover:text-orange-600 hover:translate-x-1">Privacy</div>
       </div>
 
       <div className="flex flex-col justify-start h-full">
