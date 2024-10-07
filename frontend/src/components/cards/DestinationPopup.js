@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 const DestinationPopup = ({ destination, onClose }) => {
+  console.log(destination)
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const scrollContainerRef = useRef(null);
 

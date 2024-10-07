@@ -5,6 +5,7 @@ import HomePage from './components/HomePage.js';
 import Footer from './components/Footer';
 import Signup from './components/SignUp';
 import Signin from './components/SignIn';
+import PackagesPage from './components/Packages';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -24,6 +25,7 @@ const App = () => {
       <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/packages" element={<PackagesPage />} />
         <Route path="/signup" element={<Signup setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/signin" element={<Signin />} />
       </Routes>

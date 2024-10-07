@@ -11,12 +11,12 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
   };
 
   return (
-    <header className="flex justify-between items-center bg-white/1 backdrop-blur-md p-2 md:p-4 absolute w-full top-0 z-10 box-border">
+    <header className="flex justify-between items-center bg-white/1 p-2 md:p-4 absolute w-full top-0 z-10 box-border">
       <div className="text-2xl font-bold text-white transition-transform transform hover:scale-110">Travel.</div>
       <nav className={`flex md:flex-row flex-col ${isOpen ? 'fixed inset-x-0 top-12 md:static opacity-100 translate-y-0' : 'hidden md:flex'} bg-gray-50 md:bg-transparent text-white md:static md:translate-y-0 md:opacity-100 md:transition-none transition-all duration-500`}>
         <ul className="flex md:flex-row flex-col text-center md:text-left font-semibold text-xl md:text-base space-y-4 md:space-y-0 md:space-x-8 py-4 md:py-0">
           <Link to='/'><li className="cursor-pointer transition-colors hover:text-orange-500">Home</li></Link>
-          <li className="cursor-pointer transition-colors hover:text-orange-500">Packages</li>
+          <Link to='/packages' className="cursor-pointer transition-colors hover:text-orange-500">Packages</Link>
           <li className="cursor-pointer transition-colors hover:text-orange-500">About</li>
           <li className="cursor-pointer transition-colors hover:text-orange-500">Pages</li>
           <li className="cursor-pointer transition-colors hover:text-orange-500">Contact</li>
