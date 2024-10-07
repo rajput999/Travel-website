@@ -29,11 +29,11 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="px-[10vw]">
+      <div className="px-[1vw] lg:px-[10vw]">
         <RecommendedPlaces />
       </div>
 
-      <div className="px-[10vw]">
+      <div className="px-[1vw] lg:px-[10vw]">
         <PopularDestinations />
       </div>
     </div>
