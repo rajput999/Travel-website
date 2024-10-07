@@ -1,9 +1,8 @@
 // src/pages/PackagesPage.jsx
 import React, { useState } from 'react';
-import { FaCar } from 'react-icons/fa';
 import PackageCard from './cards/PackageCard';
 import CustomPackageForm from './cards/CustomPackageForm';
-import FixedPkgPopup from './cards/FixedPkgPopup'; // Ensure this component is professionally styled
+import FixedPkgPopup from './cards/FixedPkgPopup';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../index.css';
 
@@ -75,7 +74,7 @@ const PackagesPage = () => {
     setLoading(true);
     // Simulate an API call
     setTimeout(() => {
-      // Here you can handle the quote logic
+      // Handle the quote logic
       alert(`Quote generated for your custom package!`);
       setLoading(false);
       // Reset form if needed
@@ -90,10 +89,11 @@ const PackagesPage = () => {
         </h1>
 
         <div className="w-full mb-8">
+          {/* Tabs for Fixed and Custom Packages */}
           <div className="flex justify-center mb-6">
             <div className="flex rounded-full bg-orange-100 p-1 shadow-md">
               <button
-                className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-lg font-medium transition-all ${
+                className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-lg font-semibold transition-all ${
                   tab === 'fixed'
                     ? 'bg-orange-500 text-white shadow-lg'
                     : 'text-orange-600 hover:bg-orange-200'
@@ -103,7 +103,7 @@ const PackagesPage = () => {
                 Fixed Packages
               </button>
               <button
-                className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-lg font-medium transition-all ${
+                className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-lg font-semibold transition-all ${
                   tab === 'custom'
                     ? 'bg-orange-500 text-white shadow-lg'
                     : 'text-orange-600 hover:bg-orange-200'
@@ -115,7 +115,7 @@ const PackagesPage = () => {
             </div>
           </div>
 
-          {/* Fixed Packages */}
+          {/* Fixed Packages Section */}
           {tab === 'fixed' && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {fixedPackages.map((pkg) => (
@@ -133,13 +133,13 @@ const PackagesPage = () => {
             </div>
           )}
 
-          {/* Custom Packages */}
+          {/* Custom Packages Section */}
           {tab === 'custom' && (
             <div className="w-full mx-auto bg-white shadow-lg rounded-xl border border-orange-200 p-6">
               <div className="p-6 bg-gradient-to-r from-orange-500 to-orange-400 text-white rounded-t-xl">
-                <div className="text-xl sm:text-2xl md:text-3xl font-bold">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold">
                   Create Your Custom Package
-                </div>
+                </h2>
               </div>
               <div className="p-6">
                 <CustomPackageForm
@@ -161,7 +161,8 @@ const PackagesPage = () => {
           )}
         </div>
       </div>
-      {/* Render the FixedPkgPopup */}
+
+      {/* Fixed Package Popup */}
       {showPopup && selectedPackage && (
         <FixedPkgPopup
           onClose={() => setShowPopup(false)}
