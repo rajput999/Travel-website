@@ -87,10 +87,11 @@ const ContactUs = () => {
         </div>
 
         {/* Map Section (Optional) */}
+        
         <div className="mt-16">
           <iframe
             title="Company Location"
-            src="https://www.google.com/maps/place/Laxman+tour+and+travels/@27.574422,77.6850453,17z/data=!3m1!4b1!4m6!3m5!1s0x39736f19f36b215f:0x2586840a6d711298!8m2!3d27.574422!4d77.6876202!16s%2Fg%2F11fcn7gmh4?entry=ttu&g_ep=EgoyMDI0MTAwMi4xIKXMDSoASAFQAw%3D%3D" // Replace with your actual Google Maps embed link
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3536.6161176086543!2d77.68504527627965!3d27.574421976259114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39736f19f36b215f%3A0x2586840a6d711298!2sLaxman%20tour%20and%20travels!5e0!3m2!1sen!2sin!4v1728404146443!5m2!1sen!2sin"
             width="100%"
             height="450"
             className="rounded-lg shadow-lg"
