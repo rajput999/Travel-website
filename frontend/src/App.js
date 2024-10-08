@@ -7,6 +7,7 @@ import Signup from './components/SignUp';
 import Signin from './components/SignIn';
 import PackagesPage from './components/Packages';
 import ContactUs from './components/Contactus';
+import AboutUs from './components/Aboutus';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/home" element={<HomePage />} />
         <Route path="/packages" element={<PackagesPage />} />
         <Route path="/contactus" element={<ContactUs />} />
+        <Route path="/about" element={<AboutUs />} />
         <Route path="/signup" element={<Signup setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/signin" element={<Signin />} />
       </Routes>
