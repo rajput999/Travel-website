@@ -97,7 +97,7 @@ const PackagesPage = () => {
   const carOptions = [
     { value: 'hatchback', label: 'Hatchback', icon: FaCarSide },
     { value: 'sedan', label: 'Sedan (+₹500)', icon: FaCarAlt },
-    { value: 'suv', label: 'SUV (+₹1000)', icon: FaTruck }, // Updated icon
+    { value: 'suv', label: 'SUV (+₹1000)', icon: FaTruck }, 
   ];
 
   const carPrices = {

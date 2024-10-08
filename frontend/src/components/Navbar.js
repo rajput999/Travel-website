@@ -17,7 +17,7 @@ const Navbar = ({ isAuthenticated }) => {
   };
 
   // Determine if the current path is '/packages'
-  const isPackagesPage = location.pathname === '/packages';
+  const isPackagesPage = location.pathname === '/packages' || location.pathname === '/contactus';
 
   return (
     <header className={`flex justify-between items-center p-4 ${isPackagesPage? 'fixed':'absolute'} w-full top-0 z-10 transition duration-300 ${isPackagesPage ? 'bg-white' : ''}`}>
@@ -39,7 +39,7 @@ const Navbar = ({ isAuthenticated }) => {
             <Link to="/pages" onClick={closeMenu}>Pages</Link>
           </li>
           <li className={`cursor-pointer transition-colors hover:text-orange-500 ${isPackagesPage ? 'text-gray-800' : 'text-white'}`}>
-            <Link to="/contact" onClick={closeMenu}>Contact</Link>
+            <Link to="/contactus" onClick={closeMenu}>Contact</Link>
           </li>
         </ul>
       </nav>
