@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PopularDestinationsCard from './cards/PopularDestinationsCard';
 
+const baseUrl = process.env.REACT_APP_API_URL;
+
 const PopularDestinations = () => {
     const scrollContainerRef = useRef(null);
     const [destinations, setDestinations] = useState([]);
@@ -9,7 +11,7 @@ const PopularDestinations = () => {
         // Fetch popular destinations from backend
         const fetchDestinations = async () => {
             try {
-                const response = await fetch('http://localhost:8000/popular-destinations'); // Adjust URL if needed
+                const response = await fetch(`${baseUrl}/popular-destinations`); // Adjust URL if needed
                 const data = await response.json();
                 setDestinations(data);
                 console.log(data)

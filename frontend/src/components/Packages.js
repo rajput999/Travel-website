@@ -10,6 +10,8 @@ import { ClipLoader } from 'react-spinners';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../index.css';
 
+const baseUrl = process.env.REACT_APP_API_URL;
+
 // Custom Input for DatePicker with integrated Calendar Icon
 const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
   <div className="relative w-full sm:w-64">
@@ -43,10 +45,11 @@ const PackagesPage = () => {
   const [allpackages, setAllPackages] = useState([]);
   const [errors, setErrors] = useState({});
 
+  console.log(baseUrl)
   useEffect(() => {
     const fetchPackages = async () => {
       try {
-        const response = await fetch('http://localhost:8000/packages');
+        const response = await fetch(`${baseUrl}/packages`);
         const data = await response.json();
         setAllPackages(data);
       } catch (error) {
@@ -56,7 +59,7 @@ const PackagesPage = () => {
 
     const fetchcars = async () => {
       try {
-        const response = await fetch('http://localhost:8000/cars');
+        const response = await fetch(`${baseUrl}/cars`);
         const data = await response.json();
         setAllcars(data);
       } catch (error) {

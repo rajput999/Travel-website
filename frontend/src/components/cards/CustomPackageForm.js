@@ -6,6 +6,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 
+const baseUrl = process.env.REACT_APP_API_URL;
 
 const CustomPackageForm = ({
   selectedPlaces,
@@ -51,7 +52,7 @@ const CustomPackageForm = ({
 
     const fetchcars = async () => {
       try {
-        const response = await fetch('http://localhost:8000/cars');
+        const response = await fetch(`${baseUrl}/cars`);
         const data = await response.json();
         setAllcars(data);
       } catch (error) {

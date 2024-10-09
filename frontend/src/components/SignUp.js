@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { GiCancel } from "react-icons/gi";
 import backimg from '../images/background.jpg';
 
+const baseUrl = process.env.REACT_APP_API_URL;
+
 const Signup = ({ setIsAuthenticated }) => {
   const [data, setData] = useState({
     firstName: "",
@@ -21,7 +23,7 @@ const Signup = ({ setIsAuthenticated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = "http://localhost:8000/handleUserSignup";
+      const url = `${baseUrl}/handleUserSignup`;
       const { data: res } = await axios.post(url, data);
       setIsAuthenticated(true); // Set authentication state to true
       navigate("/"); // Navigate to the home page

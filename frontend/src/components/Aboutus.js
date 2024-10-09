@@ -36,6 +36,8 @@ const adventures = [
   },
 ];
 
+const baseUrl = process.env.REACT_APP_API_URL;
+
 const AdventureCard = ({ images, alt }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -87,7 +89,7 @@ const AboutUs = () => {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const response = await fetch('http://localhost:8000/testimonials');
+        const response = await fetch(`${baseUrl}/testimonials`);
         const data = await response.json();
         setTestimonials(data);
         console.log(data);
@@ -129,7 +131,7 @@ const AboutUs = () => {
     formData.append('content', newTestimonial.content.slice(0, 1000));
   
     try {
-      const response = await axios.post('http://localhost:8000/testimonials/add', formData, {
+      const response = await axios.post(`${baseUrl}/testimonials/add`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
