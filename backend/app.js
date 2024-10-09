@@ -21,6 +21,7 @@ const {
 const { restrictedToLoggedinUsersOnly } = require("./middlewares/auth");
 const getfixedpackages = require("./controllers/packages");
 const populardestinations = require("./controllers/populardestinations");
+const getcars = require("./controllers/cars");
 
 const app = express();
 const PORT = 8000;
@@ -46,6 +47,7 @@ app.use(cors({
 
 // Routes
 app.use("/packages",getfixedpackages);
+app.use("/cars",getcars);
 app.use("/popular-destinations",populardestinations);
 app.use("/handleUserSignup", handleUserSignup);
 app.use("/handleUserSignin", handleUserSignin);

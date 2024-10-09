@@ -1,5 +1,5 @@
 // src/components/CustomPackageForm.jsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCar, FaCarSide, FaTruck } from 'react-icons/fa';
 import { Calendar } from 'lucide-react';
 import DatePicker from 'react-datepicker';
@@ -18,6 +18,7 @@ const CustomPackageForm = ({
 }) => {
   const [duration, setDuration] = useState('');
   const [errors, setErrors] = useState({});
+  const [allcars, setAllcars] = useState([]);
 
   const handlePlaceSelection = (place) => {
     setSelectedPlaces((prev) => {
@@ -45,6 +46,21 @@ const CustomPackageForm = ({
       handleGetQuote({ selectedPlaces, carType, travelDate, duration });
     }
   };
+
+  useEffect(() => {
+
+    const fetchcars = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/cars');
+        const data = await response.json();
+        setAllcars(data);
+      } catch (error) {
+        console.log('error in fetching packages', error);
+      }
+    };
+
+    fetchcars();
+  }, []);
 
   const carOptions = [
     {

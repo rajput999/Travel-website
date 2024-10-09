@@ -4,10 +4,9 @@ import CustomPackageForm from './cards/CustomPackageForm';
 import FixedPkgPopup from './cards/FixedPkgPopup';
 import DatePicker from 'react-datepicker';
 import Select from 'react-select';
-import { FaCarSide, FaCarAlt, FaTruck } from 'react-icons/fa'; 
-import { IoCarSport } from "react-icons/io5";
+import { FaCar} from 'react-icons/fa';
 import { Calendar as CalendarIcon } from 'lucide-react';
-import { ClipLoader } from 'react-spinners'; 
+import { ClipLoader } from 'react-spinners';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../index.css';
 
@@ -31,53 +30,43 @@ const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
   </div>
 ));
 
-// Custom Option component for react-select to include icons
-const CustomOption = ({ innerProps, data, isSelected }) => {
-  const Icon = data.icon;
-  return (
-    <div
-      {...innerProps}
-      className={`flex items-center px-4 py-2 cursor-pointer ${
-        isSelected ? 'bg-orange-100' : 'hover:bg-orange-50'
-      }`}
-    >
-      <Icon className="mr-3 text-orange-500" size={20} />
-      <span>{data.label}</span>
-    </div>
-  );
-};
 
 const PackagesPage = () => {
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [carType, setCarType] = useState('');
+  const [allcars, setAllcars] = useState([]);
   const [travelDate, setTravelDate] = useState(null);
   const [tab, setTab] = useState('fixed');
   const [showPopup, setShowPopup] = useState(false);
   const [selectedPlaces, setSelectedPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [allpackages,setAllPackages] = useState([]);
+  const [allpackages, setAllPackages] = useState([]);
+  const [errors, setErrors] = useState({});
 
-  useEffect(()=>{
-    const fetchPackages = async () =>{
-      try{
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
         const response = await fetch('http://localhost:8000/packages');
         const data = await response.json();
-        console.log(data);
         setAllPackages(data);
-      }catch(error){
-        console.log('error in fetching packages',error);
+      } catch (error) {
+        console.log('error in fetching packages', error);
       }
     };
 
+    const fetchcars = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/cars');
+        const data = await response.json();
+        setAllcars(data);
+      } catch (error) {
+        console.log('error in fetching packages', error);
+      }
+    };
+
+    fetchcars();
     fetchPackages();
-  },[]);
-
-
-  const carOptions = [
-    { value: 'hatchback', label: 'Hatchback', icon: FaCarSide },
-    { value: 'sedan', label: 'Sedan (+₹500)', icon: FaCarAlt },
-    { value: 'suv', label: 'SUV (+₹1000)', icon: IoCarSport }, 
-  ];
+  }, []);
 
   const carPrices = {
     hatchback: 0,
@@ -103,6 +92,39 @@ const PackagesPage = () => {
     }, 2000);
   };
 
+  const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      height: '48px',
+      borderColor: errors.carType ? '#f87171' : '#d1d5db',
+      boxShadow: state.isFocused ? '0 0 0 2px rgba(251,113,133,0.5)' : provided.boxShadow,
+      '&:hover': {
+        borderColor: errors.carType ? '#f87171' : '#f97316',
+      },
+      paddingLeft: '40px', // To accommodate the icon
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      display: 'flex',
+      alignItems: 'center',
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      display: 'flex',
+      alignItems: 'center',
+    }),
+    dropdownIndicator: (provided) => ({
+      ...provided,
+      color: '#f97316',
+      '&:hover': {
+        color: '#f97316',
+      },
+    }),
+    indicatorSeparator: () => ({
+      display: 'none',
+    }),
+  };
+
   return (
     <div className="min-h-screen pt-16 md:pt-20 bg-gray-50">
       <div className="container mx-auto px-4 md:px-6 py-10">
@@ -115,22 +137,20 @@ const PackagesPage = () => {
           <div className="flex justify-center mb-6">
             <div className="flex rounded-full bg-orange-100 p-1 shadow-md">
               <button
-                className={`inline-flex items-center justify-center rounded-full px-4 sm:px-6 py-2 sm:py-3 text-base sm:text-lg font-semibold transition-all ${
-                  tab === 'fixed'
+                className={`inline-flex items-center justify-center rounded-full px-4 sm:px-6 py-2 sm:py-3 text-base sm:text-lg font-semibold transition-all ${tab === 'fixed'
                     ? 'bg-orange-500 text-white shadow-lg'
                     : 'text-orange-600 hover:bg-orange-200'
-                }`}
+                  }`}
                 onClick={() => setTab('fixed')}
                 aria-pressed={tab === 'fixed'}
               >
                 Fixed Packages
               </button>
               <button
-                className={`inline-flex items-center justify-center rounded-full px-4 sm:px-6 py-2 sm:py-3 text-base sm:text-lg font-semibold transition-all ${
-                  tab === 'custom'
+                className={`inline-flex items-center justify-center rounded-full px-4 sm:px-6 py-2 sm:py-3 text-base sm:text-lg font-semibold transition-all ${tab === 'custom'
                     ? 'bg-orange-500 text-white shadow-lg'
                     : 'text-orange-600 hover:bg-orange-200'
-                }`}
+                  }`}
                 onClick={() => setTab('custom')}
                 aria-pressed={tab === 'custom'}
               >
@@ -143,7 +163,6 @@ const PackagesPage = () => {
             <>
               {/* Enhanced Date and Car Selection */}
               <div className="mb-8 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
-                {/* Enhanced DatePicker */}
                 <DatePicker
                   selected={travelDate}
                   onChange={(date) => setTravelDate(date)}
@@ -153,43 +172,21 @@ const PackagesPage = () => {
                   aria-label="Travel Date"
                 />
 
-                {/* Enhanced Car Selection */}
                 <div className="w-full sm:w-64">
-                  <Select
-                    options={carOptions}
-                    value={carOptions.find((option) => option.value === carType)}
-                    onChange={(selectedOption) =>
-                      setCarType(selectedOption ? selectedOption.value : '')
-                    }
-                    placeholder="Select Car Type"
-                    isClearable
-                    classNamePrefix="react-select"
-                    components={{ Option: CustomOption}}
-                    styles={{
-                      control: (provided, state) => ({
-                        ...provided,
-                        border: '1px solid #D1D5DB',
-                        boxShadow: 'none',
-                        '&:hover': {
-                          border: '1px solid #F97316',
-                        },
-                        backgroundColor: 'white',
-                      }),
-                      placeholder: (provided) => ({
-                        ...provided,
-                        color: '#6B7280',
-                      }),
-                      dropdownIndicator: (provided) => ({
-                        ...provided,
-                        color: '#F97316',
-                      }),
-                      menu: (provided) => ({
-                        ...provided,
-                        zIndex: 50,
-                      }),
-                    }}
-                    aria-label="Car Type Selection"
-                  />
+                  <div className="relative">
+                    <Select
+                      options={allcars}
+                      value={allcars.find((option) => option.value === carType)}
+                      onChange={(selectedOption) => setCarType(selectedOption ? selectedOption.value : '')}
+                      styles={customStyles}
+                      placeholder="Select car type"
+                      isClearable
+                      aria-label="Select Car Type"
+                    />
+                    <span className="absolute inset-y-0 left-3 sm:left-4 flex items-center pointer-events-none text-orange-500">
+                      <FaCar size={20} />
+                    </span>
+                  </div>
                 </div>
               </div>
 
