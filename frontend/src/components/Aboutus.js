@@ -1,35 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Users, Briefcase, Map, Star, Quote } from 'lucide-react';
+import axios from 'axios';
 
 const stats = [
   { icon: <Users size={24} />, title: 'Happy Clients', value: '10,000+' },
   { icon: <Briefcase size={24} />, title: 'Tours Completed', value: '500+' },
   { icon: <Map size={24} />, title: 'Destinations', value: '50+' },
   { icon: <Star size={24} />, title: 'Years Experience', value: '15+' },
-];
-
-const testimonials = [
-  { 
-    name: 'John Doe', 
-    content: 'An incredible journey! Wanderlust Adventures made our dream vacation a reality. The attention to detail and personalized service exceeded all our expectations.',
-    image: 'https://images.pexels.com/photos/14854320/pexels-photo-14854320.jpeg?auto=compress&cs=tinysrgb&w=800',
-    location: 'New York, USA',
-    rating: 5
-  },
-  { 
-    name: 'Jane Smith', 
-    content: 'Professional, attentive, and simply amazing. Cant wait for our next trip! The guides were knowledgeable and the itinerary was perfectly balanced.',
-    image: 'https://images.pexels.com/photos/19464187/pexels-photo-19464187/free-photo-of-elderly-monk-with-beard-and-in-orange-robes.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    location: 'London, UK',
-    rating: 5
-  },
-  { 
-    name: 'Alex Johnson', 
-    content: 'Wanderlust Adventures transformed our family vacation into an unforgettable experience. The kids loved every moment, and we created memories that will last a lifetime.',
-    image: 'https://images.pexels.com/photos/20762739/pexels-photo-20762739/free-photo-of-man-riding-motorbike-offroad.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    location: 'Sydney, Australia',
-    rating: 5
-  },
 ];
 
 const adventures = [
@@ -60,42 +37,125 @@ const adventures = [
 ];
 
 const AdventureCard = ({ images, alt }) => {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-      }, 3000); // Change image every 3 seconds
-  
-      return () => clearInterval(interval); // Cleanup on component unmount
-    }, [images.length]);
-  
-    return (
-      <div className="relative w-full overflow-hidden rounded-lg shadow-lg">
-        <div
-          className="flex transition-transform duration-1000 ease-in-out"
-          style={{
-            transform: `translateX(-${currentImageIndex * 100}%)`,
-          }}
-        >
-          {images.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              alt={alt}
-              className="w-full h-64 object-cover flex-shrink-0"
-              style={{ width: '100%' }}
-            />
-          ))}
-        </div>
-        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-          <p className="text-white text-lg font-semibold">Discover More</p>
-        </div>
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 3000); // Change image every 3 seconds
+
+    return () => clearInterval(interval); // Cleanup on component unmount
+  }, [images.length]);
+
+
+
+  return (
+    <div className="relative w-full overflow-hidden rounded-lg shadow-lg">
+      <div
+        className="flex transition-transform duration-1000 ease-in-out"
+        style={{
+          transform: `translateX(-${currentImageIndex * 100}%)`,
+        }}
+      >
+        {images.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={alt}
+            className="w-full h-64 object-cover flex-shrink-0"
+            style={{ width: '100%' }}
+          />
+        ))}
       </div>
-    );
-  };
+      <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+        <p className="text-white text-lg font-semibold">Discover More</p>
+      </div>
+    </div>
+  );
+};
 
 const AboutUs = () => {
+  const [testimonials, setTestimonials] = useState([]);
+  const [newTestimonial, setNewTestimonial] = useState({
+    name: '',
+    location: '',
+    image: '',
+    rating: 0,
+    content: ''
+  });
+
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/testimonials');
+        const data = await response.json();
+        setTestimonials(data);
+        console.log(data);
+      } catch (error) {
+        console.log('Error in fetching testimonials', error);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value, type, files } = e.target;
+    
+    if (type === 'file' && files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+      
+      reader.onloadend = () => {
+        setNewTestimonial({ ...newTestimonial, [name]: reader.result }); // Store the image URL
+      };
+      
+      reader.readAsDataURL(file); // Read the file as a data URL
+    } else {
+      setNewTestimonial({ ...newTestimonial, [name]: value });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData();
+    formData.append('name', newTestimonial.name.slice(0, 100));
+    formData.append('location', newTestimonial.location.slice(0, 100));
+    if (newTestimonial.image) {
+      formData.append('image', newTestimonial.image);
+    }
+    formData.append('rating', newTestimonial.rating.toString());
+    formData.append('content', newTestimonial.content.slice(0, 1000));
+  
+    try {
+      const response = await axios.post('http://localhost:8000/testimonials/add', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+  
+      setTestimonials([...testimonials, response.data]);
+      setNewTestimonial({ name: '', location: '', image: null, rating: 0, content: '' });
+      // Show success message to user
+    } catch (error) {
+      console.error('Error submitting testimonial:', error);
+      if (error.response) {
+        alert(error.response.data.message || 'An error occurred while submitting the testimonial');
+      } else if (error.request) {
+        alert('No response received from the server. Please try again later.');
+      } else {
+        alert('An error occurred while submitting the testimonial. Please try again.');
+      }
+    }
+  };
+
+  
+
+  const handleRatingChange = (rating) => {
+    setNewTestimonial({ ...newTestimonial, rating });
+  };
+
   return (
     <div className="bg-gradient-to-b from-white to-orange-50 mt-10">
       <section className="container mx-auto px-4 py-16">
@@ -153,6 +213,96 @@ const AboutUs = () => {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Form to Add Testimonials */}
+        <div className="my-24">
+          <h2 className="text-3xl font-semibold mb-12 text-center text-gray-800">Share Your Experience</h2>
+          <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-8" encType="multipart/form-data" method="post">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={newTestimonial.name}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full p-2 border border-gray-300 rounded-lg"
+                  placeholder="Enter your name"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="location">
+                  Location
+                </label>
+                <input
+                  type="text"
+                  name="location"
+                  value={newTestimonial.location}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full p-2 border border-gray-300 rounded-lg"
+                  placeholder="Enter your location"
+                />
+              </div>
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="image">
+                Upload Your Photo
+              </label>
+              <input
+                type="file"
+                id="image"
+                name="image"
+                accept="image/*"
+                onChange={handleInputChange}
+                required
+                className="border border-gray-300 rounded-md p-2 w-full"
+              />
+            </div>
+
+
+            {/* Star Rating System */}
+            <div className="mb-6">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="rating">
+                Rating
+              </label>
+              <div className="flex space-x-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    type="button"
+                    className={`text-2xl ${newTestimonial.rating >= star ? 'text-yellow-400' : 'text-gray-300'}`}
+                    onClick={() => handleRatingChange(star)}
+                  >
+                    ★
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="content">
+                Testimonial
+              </label>
+              <textarea
+                name="content"
+                value={newTestimonial.content}
+                onChange={handleInputChange}
+                required
+                className="w-full p-2 border border-gray-300 rounded-lg"
+                placeholder="Share your experience"
+              />
+            </div>
+            <div className="text-center">
+              <button type="submit" className="bg-orange-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors duration-300">
+                Submit Testimonial
+              </button>
+            </div>
+          </form>
         </div>
 
         <div className="my-16 text-center">
