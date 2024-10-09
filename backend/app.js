@@ -3,7 +3,6 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const cors = require("cors"); // Import CORS
-const popularDestinationsRoute = require("./routes/populardestination");
 
 // Route Imports
 const { connectToMongoDB } = require("./connection");
@@ -20,6 +19,8 @@ const {
   giveUserForToken,
 } = require("./controllers/authUser");
 const { restrictedToLoggedinUsersOnly } = require("./middlewares/auth");
+const getfixedpackages = require("./controllers/packages");
+const populardestinations = require("./controllers/populardestinations");
 
 const app = express();
 const PORT = 8000;
@@ -44,7 +45,8 @@ app.use(cors({
 }));
 
 // Routes
-app.use(popularDestinationsRoute);
+app.use("/packages",getfixedpackages);
+app.use("/popular-destinations",populardestinations);
 app.use("/handleUserSignup", handleUserSignup);
 app.use("/handleUserSignin", handleUserSignin);
 app.use("/handleCreateBookingById", restrictedToLoggedinUsersOnly, handleCreateBookingById);

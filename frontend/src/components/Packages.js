@@ -1,12 +1,13 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState, forwardRef, useEffect } from 'react';
 import PackageCard from './cards/PackageCard';
 import CustomPackageForm from './cards/CustomPackageForm';
 import FixedPkgPopup from './cards/FixedPkgPopup';
 import DatePicker from 'react-datepicker';
 import Select from 'react-select';
-import { FaCarSide, FaCarAlt, FaTruck } from 'react-icons/fa'; // Updated import
+import { FaCarSide, FaCarAlt, FaTruck } from 'react-icons/fa'; 
+import { IoCarSport } from "react-icons/io5";
 import { Calendar as CalendarIcon } from 'lucide-react';
-import { ClipLoader } from 'react-spinners'; // Ensure react-spinners is installed
+import { ClipLoader } from 'react-spinners'; 
 import 'react-datepicker/dist/react-datepicker.css';
 import '../index.css';
 
@@ -54,50 +55,28 @@ const PackagesPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedPlaces, setSelectedPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [allpackages,setAllPackages] = useState([]);
 
-  const fixedPackages = [
-    {
-      id: 1,
-      name: 'Mathura Darshan',
-      duration: '1 Day',
-      basePrice: 1999,
-      description: "Experience the divine atmosphere of Lord Krishna's birthplace",
-      longDescription: 'Immerse yourself in the spiritual aura of Mathura...',
-      image: [
-        'https://cdn.pixabay.com/photo/2021/08/25/20/42/field-6574455_1280.jpg',
-        'https://cdn.pixabay.com/photo/2021/08/25/20/42/field-6574455_1280.jpg',
-      ],
-    },
-    {
-      id: 2,
-      name: 'Vrindavan Special',
-      duration: '2 Days',
-      basePrice: 3999,
-      description: 'Explore the magical land where Lord Krishna spent his childhood',
-      longDescription: 'Delve into the enchanting town of Vrindavan...',
-      image: [
-        'https://cdn.pixabay.com/photo/2021/08/25/20/42/field-6574455_1280.jpg',
-        'https://cdn.pixabay.com/photo/2021/08/25/20/42/field-6574455_1280.jpg',
-      ],
-    },
-    {
-      id: 3,
-      name: 'Mathura-Vrindavan Combo',
-      duration: '3 Days',
-      basePrice: 5999,
-      description: 'Complete tour of both holy cities...',
-      longDescription: 'Embark on a comprehensive spiritual journey...',
-      image: [
-        'https://cdn.pixabay.com/photo/2021/08/25/20/42/field-6574455_1280.jpg',
-        'https://cdn.pixabay.com/photo/2021/08/25/20/42/field-6574455_1280.jpg',
-      ],
-    },
-  ];
+  useEffect(()=>{
+    const fetchPackages = async () =>{
+      try{
+        const response = await fetch('http://localhost:8000/packages');
+        const data = await response.json();
+        console.log(data);
+        setAllPackages(data);
+      }catch(error){
+        console.log('error in fetching packages',error);
+      }
+    };
+
+    fetchPackages();
+  },[]);
+
 
   const carOptions = [
     { value: 'hatchback', label: 'Hatchback', icon: FaCarSide },
     { value: 'sedan', label: 'Sedan (+₹500)', icon: FaCarAlt },
-    { value: 'suv', label: 'SUV (+₹1000)', icon: FaTruck }, 
+    { value: 'suv', label: 'SUV (+₹1000)', icon: IoCarSport }, 
   ];
 
   const carPrices = {
@@ -216,7 +195,7 @@ const PackagesPage = () => {
 
               {/* Package Cards Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {fixedPackages.map((pkg) => (
+                {allpackages.map((pkg) => (
                   <PackageCard
                     key={pkg.id}
                     pkg={pkg}
