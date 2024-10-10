@@ -25,18 +25,17 @@ app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
 // Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: false })); //to parse form data
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' })); // to parse form data
 app.use(cookieParser());
 
-// Enable CORS for your frontend
+// Enable CORS for all origins
 app.use(cors({
-  origin: "http://localhost:3000", // Your frontend URL
+  origin: function (origin, callback) {
+    callback(null, origin); // Reflect the request origin
+  },
   credentials: true, // Allow credentials like cookies
 }));
-
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Routes
 app.use("/auth", authRoutes); // Auth-related routes
