@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import HomePage from './components/HomePage.js';
+import HomePage from './pages/HomePage.js';
 import Footer from './components/Footer';
-import Signup from './components/SignUp';
-import Signin from './components/SignIn';
-import PackagesPage from './components/Packages';
-import ContactUs from './components/Contactus';
-import AboutUs from './components/Aboutus';
+import Signup from './pages/SignUp';
+import Signin from './pages/SignIn';
+import PackagesPage from './pages/Packages';
+import ContactUs from './pages/Contactus';
+import AboutUs from './pages/Aboutus';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
