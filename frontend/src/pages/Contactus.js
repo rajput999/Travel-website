@@ -1,7 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaClock } from "react-icons/fa";
 
 const ContactUs = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:8000/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        alert("Message sent successfully!");
+      } else {
+        alert("Error sending message.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("There was a problem submitting the form.");
+    }
+  };
+
   return (
     <div className="bg-gray-50 py-16 px-4 lg:px-24 mt-10">
       <div className="max-w-7xl mx-auto text-center">
@@ -11,32 +44,43 @@ const ContactUs = () => {
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
           <div className="bg-white shadow-xl rounded-lg p-8 transform transition duration-300 hover:shadow-2xl">
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <input
                   type="text"
+                  name="name"
                   placeholder="Your Name"
                   className="w-full border border-gray-300 p-4 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
+                  value={formData.name}
+                  onChange={handleChange}
                   required
                 />
                 <input
                   type="email"
+                  name="email"
                   placeholder="Your Email"
                   className="w-full border border-gray-300 p-4 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
+                  value={formData.email}
+                  onChange={handleChange}
                   required
                 />
               </div>
               <input
                 type="text"
+                name="subject"
                 placeholder="Subject"
                 className="w-full border border-gray-300 p-4 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
+                value={formData.subject}
+                onChange={handleChange}
                 required
               />
               <textarea
+                name="message"
                 placeholder="Your Message"
                 className="w-full border border-gray-300 p-4 rounded-md h-40 focus:outline-none focus:ring-2 focus:ring-orange-500 transition resize-none"
+                value={formData.message}
+                onChange={handleChange}
                 required
               ></textarea>
               <button
