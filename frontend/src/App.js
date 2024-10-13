@@ -32,7 +32,7 @@ const App = () => {
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/signup" element={<Signup setIsAuthenticated={setIsAuthenticated} />} />
-        <Route path="/signin" element={<Signin />} />
+        <Route path="/signin" element={<Signin setIsAuthenticated={setIsAuthenticated}/>} />
       </Routes>
       {(location.pathname !== '/signup' || location.pathname !== '/signin') && <Footer />}
     </div>
