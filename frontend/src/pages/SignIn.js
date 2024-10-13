@@ -4,7 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { GiCancel } from "react-icons/gi";
 import backimg from '../images/background.jpg';
 
-const Signin = () => {
+
+const baseUrl = process.env.REACT_APP_API_URL;
+
+const Signin = ({ setIsAuthenticated }) => {
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -19,8 +22,9 @@ const Signin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const url = "http://localhost:8080/api/auth";
+            const url = `${baseUrl}/auth/signin`;
             const { data: res } = await axios.post(url, data);
+            setIsAuthenticated(true);
             navigate("/");
             console.log(res.message);
         } catch (error) {

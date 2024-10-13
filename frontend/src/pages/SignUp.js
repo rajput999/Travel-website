@@ -23,7 +23,7 @@ const Signup = ({ setIsAuthenticated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = `${baseUrl}/handleUserSignup`;
+      const url = `${baseUrl}/auth/signup`;
       const { data: res } = await axios.post(url, data);
       setIsAuthenticated(true); // Set authentication state to true
       navigate("/"); // Navigate to the home page
