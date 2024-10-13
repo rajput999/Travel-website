@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaCar } from 'react-icons/fa';
+import { FaCar, FaTimes } from 'react-icons/fa';
 import { Calendar } from 'lucide-react';
 
 const PackageCard = ({
@@ -8,6 +8,8 @@ const PackageCard = ({
   travelDate,
   calculatePrice,
   handleBookNow,
+  isAdmin,
+  onDeletePackage,
 }) => {
   const truncateText = (text, limit) => {
     return text.length > limit ? `${text.substring(0, limit)}...` : text;
@@ -17,8 +19,24 @@ const PackageCard = ({
     return date ? date.toLocaleDateString('en-GB') : 'Not selected';
   };
 
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    if (window.confirm('Are you sure you want to delete this package?')) {
+      onDeletePackage(pkg.id);
+    }
+  };
+
   return (
-    <div className="rounded-xl border border-orange-200 bg-white shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
+    <div className="relative rounded-xl border border-orange-200 bg-white shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
+      {isAdmin && (
+        <button
+          className="absolute top-2 right-2 z-10 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+          onClick={handleDelete}
+          aria-label="Delete package"
+        >
+          <FaTimes />
+        </button>
+      )}
       <div
         className="cursor-pointer"
         onClick={() => handleBookNow(pkg)}

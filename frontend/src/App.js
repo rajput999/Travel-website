@@ -11,6 +11,7 @@ import AboutUs from './pages/Aboutus';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const googleMapsScript = document.createElement('script');
@@ -28,11 +29,11 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
-        <Route path="/packages" element={<PackagesPage />} />
+        <Route path="/packages" element={<PackagesPage isAdmin={isAdmin} />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/signup" element={<Signup setIsAuthenticated={setIsAuthenticated} />} />
-        <Route path="/signin" element={<Signin setIsAuthenticated={setIsAuthenticated}/>} />
+        <Route path="/signin" element={<Signin setIsAuthenticated={setIsAuthenticated} setIsAdmin={setIsAdmin}/>} />
       </Routes>
       {(location.pathname !== '/signup' || location.pathname !== '/signin') && <Footer />}
     </div>

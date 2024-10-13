@@ -7,7 +7,7 @@ import backimg from '../images/background.jpg';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
-const Signin = ({ setIsAuthenticated }) => {
+const Signin = ({ setIsAuthenticated ,setIsAdmin}) => {
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -25,6 +25,10 @@ const Signin = ({ setIsAuthenticated }) => {
             const url = `${baseUrl}/auth/signin`;
             const { data: res } = await axios.post(url, data);
             setIsAuthenticated(true);
+            if(data.email=='Abhishekgr154@gmail.com'){
+                setIsAdmin(true);
+                console.log('admin')
+            }
             navigate("/");
             console.log(res.message);
         } catch (error) {

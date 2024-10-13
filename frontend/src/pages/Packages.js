@@ -4,11 +4,13 @@ import CustomPackageForm from '../components/cards/CustomPackageForm';
 import FixedPkgPopup from '../components/cards/FixedPkgPopup';
 import DatePicker from 'react-datepicker';
 import Select from 'react-select';
-import { FaCar} from 'react-icons/fa';
+import { FaCar , FaPlus} from 'react-icons/fa';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { ClipLoader } from 'react-spinners';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../index.css';
+import AddNewPackageForm from '../components/admincomponents/AddNewPackageForm';
+
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -33,7 +35,7 @@ const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
 ));
 
 
-const PackagesPage = () => {
+const PackagesPage = ({isAdmin}) => {
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [carType, setCarType] = useState('');
   const [allcars, setAllcars] = useState([]);
@@ -44,6 +46,7 @@ const PackagesPage = () => {
   const [loading, setLoading] = useState(false);
   const [allpackages, setAllPackages] = useState([]);
   const [errors, setErrors] = useState({});
+  const [showAddPackageForm, setShowAddPackageForm] = useState(false);
 
   console.log(baseUrl)
   useEffect(() => {
@@ -82,6 +85,22 @@ const PackagesPage = () => {
     return basePrice + carPrice;
   };
 
+  const handleDeletePackage = async (packageId) => {
+    try {
+      await fetch(`${baseUrl}/packages/${packageId}`, {
+        method: 'DELETE',
+      });
+      setAllPackages(allpackages.filter(pkg => pkg.id !== packageId));
+    } catch (error) {
+      console.error('Error deleting package:', error);
+    }
+  };
+
+  const handleAddNewPackage = (newPackage) => {
+    setAllPackages([...allpackages, newPackage]);
+    setShowAddPackageForm(false);
+  };
+
   const handlePackageClick = (pkg) => {
     setSelectedPackage(pkg);
     setShowPopup(true);
@@ -94,6 +113,7 @@ const PackagesPage = () => {
       setLoading(false);
     }, 2000);
   };
+
 
   const customStyles = {
     control: (provided, state) => ({
@@ -193,17 +213,31 @@ const PackagesPage = () => {
                 </div>
               </div>
 
+              {isAdmin && (
+                <div className="mb-8 flex justify-center">
+                  <button
+                    onClick={() => setShowAddPackageForm(true)}
+                    className="inline-flex items-center justify-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+                  >
+                    <FaPlus className="mr-2" />
+                    Add New Package
+                  </button>
+                </div>
+              )}
+
               {/* Package Cards Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {allpackages.map((pkg) => (
                   <PackageCard
-                    key={pkg.id}
-                    pkg={pkg}
-                    carType={carType}
-                    travelDate={travelDate}
-                    calculatePrice={calculatePrice}
-                    handleBookNow={handlePackageClick}
-                  />
+                  key={pkg.id}
+                  pkg={pkg}
+                  carType={carType}
+                  travelDate={travelDate}
+                  calculatePrice={calculatePrice}
+                  handleBookNow={handlePackageClick}
+                  isAdmin={isAdmin}
+                  onDeletePackage={handleDeletePackage}
+                />
                 ))}
               </div>
             </>
@@ -245,6 +279,14 @@ const PackagesPage = () => {
           calculatePrice={calculatePrice}
           carType={carType}
           travelDate={travelDate}
+        />
+      )}
+
+      {/* Add New Package Form Popup */}
+      {showAddPackageForm && (
+        <AddNewPackageForm
+          onClose={() => setShowAddPackageForm(false)}
+          onAddPackage={handleAddNewPackage}
         />
       )}
     </div>
