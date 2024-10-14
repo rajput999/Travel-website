@@ -14,7 +14,6 @@ import AddNewPackageForm from '../components/admincomponents/AddNewPackageForm';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
-// Custom Input for DatePicker with integrated Calendar Icon
 const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
   <div className="relative w-full sm:w-64">
     <input
@@ -47,6 +46,7 @@ const PackagesPage = ({isAdmin}) => {
   const [allpackages, setAllPackages] = useState([]);
   const [errors, setErrors] = useState({});
   const [showAddPackageForm, setShowAddPackageForm] = useState(false);
+  const [editingPackage, setEditingPackage] = useState(null);
 
   console.log(baseUrl)
   useEffect(() => {
@@ -55,6 +55,7 @@ const PackagesPage = ({isAdmin}) => {
         const response = await fetch(`${baseUrl}/packages`);
         const data = await response.json();
         setAllPackages(data);
+        console.log(data)
       } catch (error) {
         console.log('error in fetching packages', error);
       }
@@ -90,10 +91,22 @@ const PackagesPage = ({isAdmin}) => {
       await fetch(`${baseUrl}/packages/${packageId}`, {
         method: 'DELETE',
       });
-      setAllPackages(allpackages.filter(pkg => pkg.id !== packageId));
+      setAllPackages(allpackages.filter(pkg => pkg._id !== packageId));
     } catch (error) {
       console.error('Error deleting package:', error);
     }
+  };
+
+  const handleEditPackage = (pkg) => {
+    setEditingPackage(pkg);
+    setShowAddPackageForm(true);
+  };
+
+  const handleUpdatePackage = (updatedPackage) => {
+
+      setAllPackages(allpackages.map(pkg => pkg._id === updatedPackage._id ? updatedPackage : pkg));
+      setEditingPackage(null);
+      setShowAddPackageForm(false);
   };
 
   const handleAddNewPackage = (newPackage) => {
@@ -237,6 +250,7 @@ const PackagesPage = ({isAdmin}) => {
                   handleBookNow={handlePackageClick}
                   isAdmin={isAdmin}
                   onDeletePackage={handleDeletePackage}
+                  onEditPackage={handleEditPackage}
                 />
                 ))}
               </div>
@@ -282,11 +296,16 @@ const PackagesPage = ({isAdmin}) => {
         />
       )}
 
-      {/* Add New Package Form Popup */}
+      {/* Add/Edit Package Form Popup */}
       {showAddPackageForm && (
         <AddNewPackageForm
-          onClose={() => setShowAddPackageForm(false)}
+          onClose={() => {
+            setShowAddPackageForm(false);
+            setEditingPackage(null);
+          }}
           onAddPackage={handleAddNewPackage}
+          onUpdatePackage={handleUpdatePackage}
+          editingPackage={editingPackage}
         />
       )}
     </div>

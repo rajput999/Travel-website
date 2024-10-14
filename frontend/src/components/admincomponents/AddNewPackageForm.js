@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import axios from 'axios'; // Axios is used for HTTP requests
+import axios from 'axios';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
-const AddNewPackageForm = ({ onClose, onAddPackage }) => {
+const AddNewPackageForm = ({ onClose, onAddPackage, onUpdatePackage, editingPackage }) => {
   const [packageData, setPackageData] = useState({
     name: '',
     description: '',
     longDescription: '',
     basePrice: '',
     duration: '',
-    image: [''], // Array for multiple image URLs
+    image: [''],
   });
+  console.log(editingPackage)
+
+  useEffect(() => {
+    if (editingPackage) {
+      setPackageData(editingPackage);
+    }
+  }, [editingPackage]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +38,6 @@ const AddNewPackageForm = ({ onClose, onAddPackage }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Basic validation
     if (!packageData.name || !packageData.description || !packageData.basePrice || !packageData.duration) {
       alert('Please fill in all required fields');
       return;
@@ -39,21 +45,30 @@ const AddNewPackageForm = ({ onClose, onAddPackage }) => {
 
     const packageToSend = {
       ...packageData,
-      id: Date.now(), // Using timestamp as a temporary ID
       basePrice: Number(packageData.basePrice),
     };
 
+      delete packageToSend.__v;
+
     try {
-      // Send the data to the backend using axios
-      const response = await axios.post(`${baseUrl}/packages`, packageToSend);
-      if (response.status === 201) {
-        alert('Package added successfully');
-        onAddPackage(packageToSend);
-        onClose();
+      let response;
+      if (editingPackage) {
+        response = await axios.put(`${baseUrl}/packages/${editingPackage._id}`, packageToSend);
+        if (response.status === 200) {
+          alert('Package updated successfully');
+          onUpdatePackage(response.data);
+        }
+      } else {
+        response = await axios.post(`${baseUrl}/packages`, packageToSend);
+        if (response.status === 201) {
+          alert('Package added successfully');
+          onAddPackage(response.data);
+        }
       }
+      onClose();
     } catch (error) {
-      console.error('Error adding package:', error);
-      alert('Failed to add the package. Please try again.');
+      console.error('Error saving package:', error);
+      alert(`Failed to ${editingPackage ? 'update' : 'add'} the package. Please try again.`);
     }
   };
 
@@ -68,7 +83,9 @@ const AddNewPackageForm = ({ onClose, onAddPackage }) => {
           <FaTimes />
         </button>
 
-        <h2 className="text-2xl font-bold mb-4 text-orange-600">Add New Package</h2>
+        <h2 className="text-2xl font-bold mb-4 text-orange-600">
+          {editingPackage ? 'Edit Package' : 'Add New Package'}
+        </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -79,7 +96,7 @@ const AddNewPackageForm = ({ onClose, onAddPackage }) => {
               name="name"
               value={packageData.name}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
+              className="mt-1 p-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
               required
             />
           </div>
@@ -117,7 +134,7 @@ const AddNewPackageForm = ({ onClose, onAddPackage }) => {
               name="basePrice"
               value={packageData.basePrice}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
+              className="mt-1 p-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
               required
             />
           </div>
@@ -131,7 +148,7 @@ const AddNewPackageForm = ({ onClose, onAddPackage }) => {
               value={packageData.duration}
               onChange={handleChange}
               placeholder="e.g., 3 Days / 2 Nights"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
+              className="mt-1 p-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
               required
             />
           </div>
@@ -145,7 +162,7 @@ const AddNewPackageForm = ({ onClose, onAddPackage }) => {
                 value={url}
                 onChange={(e) => handleImageChange(index, e.target.value)}
                 placeholder="Enter image URL"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
+                className="mt-1 p-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
               />
             ))}
             <button
@@ -169,7 +186,7 @@ const AddNewPackageForm = ({ onClose, onAddPackage }) => {
               type="submit"
               className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
             >
-              Add Package
+              {editingPackage ? 'Update Package' : 'Add Package'}
             </button>
           </div>
         </form>

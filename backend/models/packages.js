@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const PackageSchema = new mongoose.Schema({
-  id: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
   name: {
     type: String,
     required: true,
@@ -29,8 +24,8 @@ const PackageSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
-});
+}, { versionKey: false });
 
-const Package = mongoose.model('fixedPackage', PackageSchema);
+const Package = mongoose.model('fixedPackages', PackageSchema);
 
 module.exports = Package;

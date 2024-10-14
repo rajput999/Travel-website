@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaCar, FaTimes } from 'react-icons/fa';
+import { FaCar, FaTimes, FaEdit } from 'react-icons/fa';
 import { Calendar } from 'lucide-react';
 
 const PackageCard = ({
@@ -10,6 +10,7 @@ const PackageCard = ({
   handleBookNow,
   isAdmin,
   onDeletePackage,
+  onEditPackage,
 }) => {
   const truncateText = (text, limit) => {
     return text.length > limit ? `${text.substring(0, limit)}...` : text;
@@ -22,20 +23,34 @@ const PackageCard = ({
   const handleDelete = (e) => {
     e.stopPropagation();
     if (window.confirm('Are you sure you want to delete this package?')) {
-      onDeletePackage(pkg.id);
+      onDeletePackage(pkg._id);
     }
+  };
+
+  const handleEdit = (e) => {
+    e.stopPropagation();
+    onEditPackage(pkg);
   };
 
   return (
     <div className="relative rounded-xl border border-orange-200 bg-white shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
       {isAdmin && (
-        <button
-          className="absolute top-2 right-2 z-10 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
-          onClick={handleDelete}
-          aria-label="Delete package"
-        >
-          <FaTimes />
-        </button>
+        <div className="absolute top-2 right-2 z-10 flex space-x-2">
+          <button
+            className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors"
+            onClick={handleEdit}
+            aria-label="Edit package"
+          >
+            <FaEdit />
+          </button>
+          <button
+            className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+            onClick={handleDelete}
+            aria-label="Delete package"
+          >
+            <FaTimes />
+          </button>
+        </div>
       )}
       <div
         className="cursor-pointer"

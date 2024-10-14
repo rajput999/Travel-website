@@ -43,7 +43,7 @@ const Navbar = ({ isAuthenticated }) => {
       <div className="flex items-center">
       {isAuthenticated ? (
           <Link to='/profile' onClick={closeMenu}>
-            <FontAwesomeIcon icon={faUserCircle} className="text-white text-3xl cursor-pointer hover:text-orange-500 transition-colors" />
+            <FontAwesomeIcon icon={faUserCircle} className={`${isPackagesPage?'text-orange-500':'text-white'} text-3xl cursor-pointer hover:text-orange-600 transition-colors`} />
           </Link>
         ) : (
           <Link to='/signup' onClick={closeMenu}>

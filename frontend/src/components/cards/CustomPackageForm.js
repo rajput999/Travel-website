@@ -55,6 +55,7 @@ const CustomPackageForm = ({
         const response = await fetch(`${baseUrl}/cars`);
         const data = await response.json();
         setAllcars(data);
+        console.log(data)
       } catch (error) {
         console.log('error in fetching packages', error);
       }
@@ -63,38 +64,6 @@ const CustomPackageForm = ({
     fetchcars();
   }, []);
 
-  const carOptions = [
-    {
-      value: 'hatchback',
-      label: (
-        <div className="flex items-center">
-          {/* <FaHatchback className="mr-2 text-orange-500" /> */}
-          Hatchback
-        </div>
-      ),
-      cost: 0,
-    },
-    {
-      value: 'sedan',
-      label: (
-        <div className="flex items-center">
-          {/* <FaCarSide className="mr-2 text-orange-500" /> */}
-          Sedan (+₹500)
-        </div>
-      ),
-      cost: 500,
-    },
-    {
-      value: 'suv',
-      label: (
-        <div className="flex items-center">
-          {/* <FaTruck className="mr-2 text-orange-500" /> */}
-          SUV (+₹1000)
-        </div>
-      ),
-      cost: 1000,
-    },
-  ];
 
   const customStyles = {
     control: (provided, state) => ({
@@ -186,8 +155,8 @@ const CustomPackageForm = ({
         </label>
         <div className="relative">
           <Select
-            options={carOptions}
-            value={carOptions.find((option) => option.value === carType)}
+            options={allcars}
+            value={allcars.find((option) => option.value === carType)}
             onChange={(selectedOption) => setCarType(selectedOption ? selectedOption.value : '')}
             styles={customStyles}
             placeholder="Select car type"
