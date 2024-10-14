@@ -273,6 +273,7 @@ const PackagesPage = ({isAdmin}) => {
                   travelDate={travelDate}
                   setTravelDate={setTravelDate}
                   handleGetQuote={handleGetQuote}
+                  isAdmin={isAdmin}
                 />
                 {loading && (
                   <div className="mt-4 flex justify-center">

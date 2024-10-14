@@ -10,6 +10,7 @@ const authRoutes = require("./routes/authRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const packageRoutes = require("./routes/packageRoutes");
 const carRoutes = require("./routes/carRoutes");
+const placesRoutes = require("./routes/placesRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const testimonialRoutes = require("./routes/testimonialRoutes");
 const popularDestinationsRoutes = require("./routes/popularDestinationsRoutes");
@@ -42,6 +43,7 @@ app.use(cors({
 app.use("/auth", authRoutes); // Auth-related routes
 app.use("/booking", bookingRoutes); // Booking-related routes
 app.use("/packages", packageRoutes); // Package-related routes
+app.use('/places', placesRoutes);
 app.use("/cars", carRoutes); // Car-related routes
 app.use('/contact', contactRoutes);
 app.use("/testimonials", testimonialRoutes); // Testimonial-related routes

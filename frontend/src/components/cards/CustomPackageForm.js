@@ -1,10 +1,10 @@
-// src/components/CustomPackageForm.jsx
-import React, { useEffect, useState } from 'react';
-import { FaCar, FaCarSide, FaTruck } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaCar, FaPlus, FaTrash } from 'react-icons/fa';
 import { Calendar } from 'lucide-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -16,19 +16,88 @@ const CustomPackageForm = ({
   travelDate,
   setTravelDate,
   handleGetQuote,
+  isAdmin,
 }) => {
   const [duration, setDuration] = useState('');
   const [errors, setErrors] = useState({});
   const [allcars, setAllcars] = useState([]);
+  const [newPlace, setNewPlace] = useState('');
+  const [places, setPlaces] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    fetchPlaces();
+    fetchCars();
+  }, []);
+
+  const fetchPlaces = async () => {
+    try {
+      const response = await fetch(`${baseUrl}/places`);
+      if (!response.ok) throw new Error('Failed to fetch places');
+      const data = await response.json();
+      setPlaces(data);
+    } catch (error) {
+      console.error('Error fetching places:', error);
+      toast.error('Failed to load places. Please try again later.');
+    }
+  };
+
+  const fetchCars = async () => {
+    try {
+      const response = await fetch(`${baseUrl}/api/cars`);
+      if (!response.ok) throw new Error('Failed to fetch cars');
+      const data = await response.json();
+      setAllcars(data);
+    } catch (error) {
+      console.error('Error fetching cars:', error);
+      toast.error('Failed to load car options. Please try again later.');
+    }
+  };
 
   const handlePlaceSelection = (place) => {
-    setSelectedPlaces((prev) => {
-      if (prev.includes(place)) {
-        return prev.filter((p) => p !== place);
-      } else {
-        return [...prev, place];
-      }
-    });
+    setSelectedPlaces((prev) => 
+      prev.includes(place) ? prev.filter((p) => p !== place) : [...prev, place]
+    );
+  };
+
+  const handleAddPlace = async () => {
+    if (!newPlace.trim()) return;
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${baseUrl}/places`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newPlace }),
+      });
+      if (!response.ok) throw new Error('Failed to add place');
+      const addedPlace = await response.json();
+      setPlaces([...places, addedPlace]);
+      setNewPlace('');
+      toast.success('New place added successfully!');
+    } catch (error) {
+      console.error('Error adding place:', error);
+      toast.error('Failed to add new place. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeletePlace = async (placeId) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${baseUrl}/places/${placeId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) throw new Error('Failed to delete place');
+      setPlaces(places.filter(p => p._id !== placeId));
+      setSelectedPlaces(selectedPlaces.filter(p => p._id !== placeId));
+      toast.success('Place deleted successfully!');
+    } catch (error) {
+      console.error('Error deleting place:', error);
+      toast.error('Failed to delete place. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const validateForm = () => {
@@ -48,23 +117,6 @@ const CustomPackageForm = ({
     }
   };
 
-  useEffect(() => {
-
-    const fetchcars = async () => {
-      try {
-        const response = await fetch(`${baseUrl}/cars`);
-        const data = await response.json();
-        setAllcars(data);
-        console.log(data)
-      } catch (error) {
-        console.log('error in fetching packages', error);
-      }
-    };
-
-    fetchcars();
-  }, []);
-
-
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
@@ -74,7 +126,7 @@ const CustomPackageForm = ({
       '&:hover': {
         borderColor: errors.carType ? '#f87171' : '#f97316',
       },
-      paddingLeft: '40px', // To accommodate the icon
+      paddingLeft: '40px',
     }),
     singleValue: (provided) => ({
       ...provided,
@@ -106,23 +158,56 @@ const CustomPackageForm = ({
           Select Places:
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
-          {['Mathura', 'Vrindavan', 'Gokul', 'Barsana'].map((place) => (
-            <div key={place} className="flex items-center">
-              <input
-                type="checkbox"
-                id={place}
-                className="h-4 w-4 sm:h-5 sm:w-5 rounded border-gray-300 focus:ring-2 focus:ring-orange-500"
-                onChange={() => handlePlaceSelection(place)}
-                checked={selectedPlaces.includes(place)}
-              />
-              <label htmlFor={place} className="ml-2 text-xs sm:text-sm text-gray-700 font-medium">
-                {place}
-              </label>
+          {places.map((place) => (
+            <div key={place._id} className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id={place._id}
+                  className="h-4 w-4 sm:h-5 sm:w-5 rounded border-gray-300 focus:ring-2 focus:ring-orange-500"
+                  onChange={() => handlePlaceSelection(place)}
+                  checked={selectedPlaces.includes(place)}
+                />
+                <label htmlFor={place._id} className="ml-2 text-xs sm:text-sm text-gray-700 font-medium">
+                  {place.name}
+                </label>
+              </div>
+              {isAdmin && (
+                <button
+                  type="button"
+                  onClick={() => handleDeletePlace(place._id)}
+                  className="text-red-500 hover:text-red-700"
+                  disabled={isLoading}
+                >
+                  <FaTrash size={16} />
+                </button>
+              )}
             </div>
           ))}
         </div>
         {errors.places && <p className="text-red-500 text-sm mt-1">{errors.places}</p>}
       </div>
+
+      {/* Add New Place (Admin only) */}
+      {isAdmin && (
+        <div className="flex items-center space-x-2">
+          <input
+            type="text"
+            value={newPlace}
+            onChange={(e) => setNewPlace(e.target.value)}
+            placeholder="New place name"
+            className="flex-grow h-10 px-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 text-sm"
+          />
+          <button
+            type="button"
+            onClick={handleAddPlace}
+            className="h-10 px-4 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200"
+            disabled={isLoading}
+          >
+            <FaPlus />
+          </button>
+        </div>
+      )}
 
       {/* Travel Date */}
       <div>
