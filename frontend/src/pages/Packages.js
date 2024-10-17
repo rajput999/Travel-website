@@ -35,6 +35,7 @@ const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
 
 
 const PackagesPage = ({isAdmin}) => {
+  console.log(isAdmin)
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [carType, setCarType] = useState('');
   const [allcars, setAllcars] = useState([]);

@@ -4,7 +4,8 @@ import PopularDestinationsCard from './cards/PopularDestinationsCard';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
-const RecommendedPlaces = () => {
+const RecommendedPlaces = ({isAdmin}) => {
+    console.log(isAdmin);
     const scrollContainerRef = useRef(null);
     const [destinations, setDestinations] = useState([]);
 
@@ -48,7 +49,7 @@ const RecommendedPlaces = () => {
             <div className="w-full overflow-x-scroll no-scrollbar" ref={scrollContainerRef}>
                 <div className="flex mt-10 w-max">
                     {destinations.map(dest => (
-                        <PopularDestinationsCard key={dest.id} destination={dest} />
+                        <PopularDestinationsCard key={dest.id} destination={dest} isAdmin={isAdmin}/>
                     ))}
                 </div>
             </div>

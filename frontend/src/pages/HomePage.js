@@ -4,7 +4,8 @@ import backimg from '../images/background.jpg';
 import PopularDestinations from '../components/PopularDestinations';
 import RecommendedPlaces from '../components/RecommendedPlaces';
 
-const HomePage = () => {
+const HomePage = ({isAdmin}) => {
+  console.log(isAdmin)
   return (
     <div className="w-full">
       <div className="flex flex-col relative m-0 p-0">
@@ -30,7 +31,7 @@ const HomePage = () => {
       </div>
 
       <div className="px-[1vw] lg:px-[10vw]">
-        <RecommendedPlaces />
+        <RecommendedPlaces isAdmin={isAdmin}/>
       </div>
 
       <div className="px-[1vw] lg:px-[10vw]">

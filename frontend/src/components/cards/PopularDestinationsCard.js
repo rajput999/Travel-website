@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { MapPin, DollarSign } from 'lucide-react';
+import { MapPin, DollarSign, Edit, Trash2 } from 'lucide-react';
 import DestinationPopup from './DestinationPopup';
 
-const PopularDestinationsCard = ({ destination }) => {
+const PopularDestinationsCard = ({ destination, isAdmin, onEdit, onDelete }) => {
   const [showPopup, setShowPopup] = useState(false);
 
   const openPopup = () => setShowPopup(true);
@@ -25,7 +25,7 @@ const PopularDestinationsCard = ({ destination }) => {
         className="w-[400px] bg-white overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out m-5 rounded-lg border border-gray-200 cursor-pointer relative"
         onClick={openPopup}
       >
-        <div className="relative pb-24"> {/* Added padding at the bottom */}
+        <div className="relative pb-24">
           <img 
             src={destination.image} 
             alt={destination.name} 
@@ -51,22 +51,44 @@ const PopularDestinationsCard = ({ destination }) => {
           </div>
         </div>
 
-        {/* Fixed Price and Button Section */}
         <div className="absolute bottom-0 left-0 right-0 bg-gray-50 p-6 flex items-center justify-between border-t border-gray-200">
           <div className="flex items-center">
             <DollarSign className="w-6 h-6 text-orange-500" />
             <span className="text-3xl font-bold text-gray-900 mr-1">{destination.price}</span>
             <span className="text-gray-600 text-sm">per person</span>
           </div>
-          <button 
-            className="bg-orange-500 text-white hover:bg-orange-600 px-6 py-2 rounded-lg transition duration-300 ease-in-out font-semibold text-sm uppercase tracking-wider"
-            onClick={(e) => {
-              e.stopPropagation();
-              openPopup();
-            }}
-          >
-            Book Now
-          </button>
+          {isAdmin ? (
+            <div className="flex space-x-2">
+              <button 
+                className="bg-blue-500 text-white hover:bg-blue-600 p-2 rounded-lg transition duration-300 ease-in-out"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit();
+                }}
+              >
+                <Edit size={20} />
+              </button>
+              <button 
+                className="bg-red-500 text-white hover:bg-red-600 p-2 rounded-lg transition duration-300 ease-in-out"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete();
+                }}
+              >
+                <Trash2 size={20} />
+              </button>
+            </div>
+          ) : (
+            <button 
+              className="bg-orange-500 text-white hover:bg-orange-600 px-6 py-2 rounded-lg transition duration-300 ease-in-out font-semibold text-sm uppercase tracking-wider"
+              onClick={(e) => {
+                e.stopPropagation();
+                openPopup();
+              }}
+            >
+              Book Now
+            </button>
+          )}
         </div>
       </div>
 
