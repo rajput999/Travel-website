@@ -18,6 +18,7 @@ const PopularDestinations = ({ isAdmin }) => {
         try {
             const response = await fetch(`${baseUrl}/popular-destinations`);
             const data = await response.json();
+            console.log(data)
             setDestinations(data);
         } catch (error) {
             console.error("Error fetching destinations:", error);
@@ -25,6 +26,7 @@ const PopularDestinations = ({ isAdmin }) => {
     };
 
     const handleAdd = async (newDestination) => {
+        console.log(newDestination)
         try {
             const response = await fetch(`${baseUrl}/popular-destinations`, {
                 method: 'POST',
@@ -43,13 +45,16 @@ const PopularDestinations = ({ isAdmin }) => {
     };
 
     const handleEdit = async (updatedDestination) => {
+        console.log(updatedDestination);
+        const { id, ...destinationWithoutId } = updatedDestination;
+    
         try {
-            const response = await fetch(`${baseUrl}/popular-destinations/${updatedDestination.id}`, {
+            const response = await fetch(`${baseUrl}/popular-destinations/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(updatedDestination),
+                body: JSON.stringify(destinationWithoutId), // Send data without id
             });
             if (response.ok) {
                 fetchDestinations();
@@ -59,6 +64,7 @@ const PopularDestinations = ({ isAdmin }) => {
             console.error("Error updating destination:", error);
         }
     };
+    
 
     const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this destination?")) {
@@ -107,11 +113,11 @@ const PopularDestinations = ({ isAdmin }) => {
                 <div className="flex mt-10 w-max">
                     {destinations.map(dest => (
                         <PopularDestinationsCard
-                            key={dest.id}
+                            key={dest._id}
                             destination={dest}
                             isAdmin={isAdmin}
                             onEdit={() => setEditingDestination(dest)}
-                            onDelete={() => handleDelete(dest.id)}
+                            onDelete={() => handleDelete(dest._id)}
                         />
                     ))}
                 </div>

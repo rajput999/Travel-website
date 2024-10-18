@@ -35,7 +35,7 @@ const HomePage = ({isAdmin}) => {
       </div>
 
       <div className="px-[1vw] lg:px-[10vw]">
-        <PopularDestinations />
+        <PopularDestinations  isAdmin={isAdmin}/>
       </div>
     </div>
   );

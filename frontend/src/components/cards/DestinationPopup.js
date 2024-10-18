@@ -64,18 +64,22 @@ const DestinationPopup = ({ destination, onClose }) => {
                 </div>
               ))}
             </div>
-            <button 
-              onClick={prevImage}
-              className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition-colors duration-300"
-            >
-              <ChevronLeft className="w-6 h-6 text-gray-800" />
-            </button>
-            <button 
-              onClick={nextImage}
-              className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition-colors duration-300"
-            >
-              <ChevronRight className="w-6 h-6 text-gray-800" />
-            </button>
+            {destination.image.length > 1 && (
+              <>
+                <button 
+                  onClick={prevImage}
+                  className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition-colors duration-300"
+                >
+                  <ChevronLeft className="w-6 h-6 text-gray-800" />
+                </button>
+                <button 
+                  onClick={nextImage}
+                  className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition-colors duration-300"
+                >
+                  <ChevronRight className="w-6 h-6 text-gray-800" />
+                </button>
+              </>
+            )}
           </div>
           <button 
             onClick={onClose}
@@ -84,7 +88,6 @@ const DestinationPopup = ({ destination, onClose }) => {
             <X className="w-6 h-6 text-gray-600" />
           </button>
         </div>
-
 
         <div className="p-8">
           <div className="flex items-center justify-between mb-6">

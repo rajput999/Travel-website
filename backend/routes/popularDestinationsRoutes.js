@@ -1,9 +1,11 @@
 const express = require('express');
-const populardestinations = require('../controllers/populardestinations');
-
 const router = express.Router();
+const { populardestinations, editDestination, deleteDestination, addDestination } = require('../controllers/popularDestinations');
 
-// Popular Destinations Routes
-router.get('/', populardestinations); // Get popular destinations
+// Existing routes
+router.get('/', populardestinations);
+router.put('/:id', editDestination);
+router.delete('/:id', deleteDestination);
+router.post('/', addDestination);
 
 module.exports = router;
