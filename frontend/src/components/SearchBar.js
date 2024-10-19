@@ -12,7 +12,7 @@ const SearchBar = () => {
   const [estimatedPrice, setEstimatedPrice] = useState('');
 
   const estimate = () => {
-    // Placeholder logic for estimation, replace with actual logic
+
     const distance = '100 miles';
     const price = '$150';
     setEstimatedDistance(distance);
@@ -20,9 +20,8 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className="w-[85vw] sm:w-[75vw] max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
       <div className="p-6 space-y-6">
-        <h2 className="text-2xl font-bold text-gray-800 ">Plan Your Trip</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">From</label>
@@ -76,15 +75,16 @@ const SearchBar = () => {
             </select>
           </div>
         </div>
-        <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
+        <div className="flex flex-col sm:flex-row justify-evenly items-center space-y-4 sm:space-y-0 sm:space-x-4">
           <button
             onClick={estimate}
-            className="w-full sm:w-auto px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full sm:w-48 px-10 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
           >
             Estimate
           </button>
-          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
-            <div className="relative">
+          {/* <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto"> */}
+            {/* These two input fields will be hidden on small screens */}
+            <div className="relative hidden sm:block">
               <Car className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
               <input
                 value={estimatedDistance}
@@ -93,7 +93,7 @@ const SearchBar = () => {
                 className="w-full sm:w-48 pl-10 pr-3 py-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-md focus:outline-none"
               />
             </div>
-            <div className="relative">
+            <div className="relative hidden sm:block">
               <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
               <input
                 value={estimatedPrice}
@@ -102,7 +102,7 @@ const SearchBar = () => {
                 className="w-full sm:w-48 pl-10 pr-3 py-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-md focus:outline-none"
               />
             </div>
-          </div>
+          {/* </div> */}
         </div>
       </div>
     </div>
