@@ -3,6 +3,7 @@ import SearchBar from '../components/SearchBar';
 import backimg from '../images/background.jpg';
 import PopularDestinations from '../components/PopularDestinations';
 import RecommendedPlaces from '../components/RecommendedPlaces';
+import Testimonials from '../components/Testimonials';
 
 const HomePage = ({isAdmin}) => {
   console.log(isAdmin)
@@ -30,12 +31,16 @@ const HomePage = ({isAdmin}) => {
         </div>
       </div>
 
-      <div className="px-[1vw] lg:px-[10vw]">
+      {/* <div className="px-[1vw] lg:px-[10vw]">
         <RecommendedPlaces isAdmin={isAdmin}/>
-      </div>
+      </div> */}
 
       <div className="px-[1vw] lg:px-[10vw]">
         <PopularDestinations  isAdmin={isAdmin}/>
+      </div>
+
+      <div>
+        <Testimonials />
       </div>
     </div>
   );
