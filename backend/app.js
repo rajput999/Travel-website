@@ -51,3 +51,4 @@ app.use("/popular-destinations", popularDestinationsRoutes); // Popular destinat
 
 // Start server
 app.listen(PORT, () => console.log(`Server started at PORT:${PORT}`));
+ 

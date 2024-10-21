@@ -44,13 +44,11 @@ const CustomPackageForm = ({
 
   const fetchCars = async () => {
     try {
-      const response = await fetch(`${baseUrl}/api/cars`);
-      if (!response.ok) throw new Error('Failed to fetch cars');
+      const response = await fetch(`${baseUrl}/cars`);
       const data = await response.json();
       setAllcars(data);
     } catch (error) {
-      console.error('Error fetching cars:', error);
-      toast.error('Failed to load car options. Please try again later.');
+      console.log('error in fetching packages', error);
     }
   };
 

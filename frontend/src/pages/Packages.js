@@ -7,7 +7,7 @@ import Select from 'react-select';
 import { FaCar , FaPlus} from 'react-icons/fa';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { ClipLoader } from 'react-spinners';
-import 'react-datepicker/dist/react-datepicker.css';
+// import 'react-datepicker/dist/react-datepicker.css';
 import '../index.css';
 import AddNewPackageForm from '../components/admincomponents/AddNewPackageForm';
 
