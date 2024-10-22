@@ -8,6 +8,7 @@ import Signin from './pages/SignIn';
 import PackagesPage from './pages/Packages';
 import ContactUs from './pages/Contactus';
 import AboutUs from './pages/Aboutus';
+import BookingPage from './pages/BookingPage';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -32,10 +33,12 @@ const App = () => {
         <Route path="/packages" element={<PackagesPage isAdmin={isAdmin} />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/booking" element={<BookingPage />} />
         <Route path="/signup" element={<Signup setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/signin" element={<Signin setIsAuthenticated={setIsAuthenticated} setIsAdmin={setIsAdmin}/>} />
       </Routes>
-      {(location.pathname !== '/signup' || location.pathname !== '/signin') && <Footer />}
+      {location.pathname !== '/signup' && location.pathname !== '/signin' && location.pathname !== '/booking' && <Footer />}
+
     </div>
   );
 }

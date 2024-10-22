@@ -1,9 +1,10 @@
 import React, { forwardRef, useEffect, useState } from 'react';
-import { Calendar as CalendarIcon, MapPin, Car, DollarSign, Phone, X } from 'lucide-react';
+import { Calendar as CalendarIcon, MapPin, Car, DollarSign } from 'lucide-react';
 import Select from 'react-select';
 import { FaCar } from 'react-icons/fa';
 import DatePicker from 'react-datepicker';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';  // Import useNavigate
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -17,12 +18,7 @@ const SearchBar = () => {
   const [errors, setErrors] = useState({});
   const [allCars, setAllCars] = useState([]);
   const [isEstimated, setIsEstimated] = useState(false);
-  const [showBookingModal, setShowBookingModal] = useState(false);
-  const [bookingDetails, setBookingDetails] = useState({
-    name: '',
-    primaryPhone: '',
-    secondaryPhone: ''
-  });
+  const navigate = useNavigate();  // Initialize navigate
 
   // Fetch cars from the API
   const fetchCars = async () => {
@@ -67,22 +63,18 @@ const SearchBar = () => {
     setIsEstimated(true);
   };
 
+  // Handle book now click - Navigate to /booking
   const handleBookNowClick = () => {
-    setShowBookingModal(true);
-  };
-
-  const handleBookingSubmit = (e) => {
-    e.preventDefault();
-    // Here you would typically handle the booking submission
-    console.log('Booking details:', {
-      from,
-      to,
-      date,
-      selectedCar,
-      estimatedPrice,
-      ...bookingDetails
+    navigate('/booking', {
+      state: {
+        from,
+        to,
+        date,
+        selectedCar,
+        estimatedPrice,
+        estimatedDistance
+      }
     });
-    setShowBookingModal(false);
   };
 
   // Custom styles for react-select
@@ -229,90 +221,6 @@ const SearchBar = () => {
           </div>
         </div>
       </div>
-
-      {/* Booking Modal */}
-      {showBookingModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md relative">
-            <button
-              onClick={() => setShowBookingModal(false)}
-              className="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
-            >
-              <X size={24} />
-            </button>
-            
-            <h2 className="text-xl font-semibold mb-2">Review Your Order</h2>
-            <p className="text-gray-600 mb-6">Please provide your details to complete the booking</p>
-
-            <form onSubmit={handleBookingSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  value={bookingDetails.name}
-                  onChange={(e) => setBookingDetails(prev => ({...prev, name: e.target.value}))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  placeholder="Enter your name"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Primary Phone Number
-                </label>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-                  <input
-                    type="tel"
-                    value={bookingDetails.primaryPhone}
-                    onChange={(e) => setBookingDetails(prev => ({...prev, primaryPhone: e.target.value}))}
-                    className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                    placeholder="Enter primary phone number"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Secondary Phone Number (Optional)
-                </label>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-                  <input
-                    type="tel"
-                    value={bookingDetails.secondaryPhone}
-                    onChange={(e) => setBookingDetails(prev => ({...prev, secondaryPhone: e.target.value}))}
-                    className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                    placeholder="Enter secondary phone number"
-                  />
-                </div>
-              </div>
-
-              {/* Order Summary */}
-              <div className="mt-6 bg-gray-50 p-4 rounded-md space-y-2">
-                <h4 className="font-medium text-gray-900">Order Summary</h4>
-                <div className="text-sm text-gray-600">
-                  <p>From: {from}</p>
-                  <p>To: {to}</p>
-                  <p>Date: {date ? date.toLocaleDateString() : 'Not selected'}</p>
-                  <p>Estimated Price: {estimatedPrice}</p>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 mt-6"
-              >
-                Confirm Booking
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
     </>
   );
 };

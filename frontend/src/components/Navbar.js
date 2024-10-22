@@ -16,7 +16,7 @@ const Navbar = ({ isAuthenticated }) => {
   };
 
   // Create a variable for the homepage
-  const isHomepage = location.pathname === '/';
+  const isHomepage = location.pathname === '/' || location.pathname === '/signup' || location.pathname === '/signin';
 
   return (
     <header className={`flex justify-between items-center p-4 ${isHomepage ? 'absolute' : 'fixed'} w-full top-0 z-10 transition duration-300 ${!isHomepage ? 'bg-white' : ''}`}>
