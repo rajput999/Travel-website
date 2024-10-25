@@ -22,65 +22,65 @@ const PopularDestinationsCard = ({ destination, isAdmin, onEdit, onDelete }) => 
   return (
     <>
       <div 
-        className="w-[400px] bg-white overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out m-5 rounded-lg border border-gray-200 cursor-pointer relative"
+        className="mr-[3vw] w-full max-w-[80vw] sm:max-w-sm bg-white overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out mx-auto my-5 rounded-lg border border-gray-200 cursor-pointer relative"
         onClick={openPopup}
       >
-        <div className="relative pb-24">
+        <div className="relative pb-20">
           <img 
             src={destination.image} 
             alt={destination.name} 
-            className="w-full h-[250px] object-cover transition-transform duration-300 ease-in-out hover:scale-105"
+            className="w-full h-[150px] sm:h-[200px] md:h-[250px] object-cover transition-transform duration-300 ease-in-out hover:scale-105"
           />
-          <span className="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold uppercase tracking-wide">
+          <span className="absolute top-4 right-4 bg-orange-500 text-white px-2 py-1 text-xs rounded-full font-semibold uppercase tracking-wide">
             Featured
           </span>
         
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-2xl font-bold text-gray-800 truncate flex-1 mr-4">
+          <div className="p-2 sm:p-4 md:p-6">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-lg md:text-2xl font-bold text-gray-800 truncate flex-1 mr-2">
                 {destination.name}
               </h3>
               <div className="flex items-center">
-                <MapPin className="w-5 h-5 mr-2 text-orange-500" />
-                <span className="ml-1 text-lg font-semibold text-orange-800">{destination.rating}</span>
+                <MapPin className="w-4 h-4 md:w-5 md:h-5 mr-1" />
+                <span className="text-sm md:text-lg font-semibold text-orange-800">{destination.rating}</span>
               </div>
             </div>
-            <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
+            <p className="text-gray-600 mb-2 text-sm leading-relaxed line-clamp-3">
               {destination.description}
             </p>
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 bg-gray-50 p-6 flex items-center justify-between border-t border-gray-200">
+        <div className="absolute bottom-0 left-0 right-0 bg-gray-50 p-2 sm:p-4 md:p-6 flex items-center justify-between border-t border-gray-200">
           <div className="flex items-center">
-            <DollarSign className="w-6 h-6 text-orange-500" />
-            <span className="text-3xl font-bold text-gray-900 mr-1">{destination.price}</span>
-            <span className="text-gray-600 text-sm">per person</span>
+            <DollarSign className="w-5 h-5 md:w-6 md:h-6 text-orange-500" />
+            <span className="text-xl md:text-3xl font-bold text-gray-900 mr-1">{destination.price}</span>
+            <span className="text-gray-600 text-xs md:text-sm">per person</span>
           </div>
           {isAdmin ? (
-            <div className="flex space-x-2">
+            <div className="flex space-x-1">
               <button 
-                className="bg-blue-500 text-white hover:bg-blue-600 p-2 rounded-lg transition duration-300 ease-in-out"
+                className="bg-blue-500 text-white hover:bg-blue-600 p-1 rounded-lg transition duration-300 ease-in-out"
                 onClick={(e) => {
                   e.stopPropagation();
                   onEdit();
                 }}
               >
-                <Edit size={20} />
+                <Edit size={18} />
               </button>
               <button 
-                className="bg-red-500 text-white hover:bg-red-600 p-2 rounded-lg transition duration-300 ease-in-out"
+                className="bg-red-500 text-white hover:bg-red-600 p-1 rounded-lg transition duration-300 ease-in-out"
                 onClick={(e) => {
                   e.stopPropagation();
                   onDelete();
                 }}
               >
-                <Trash2 size={20} />
+                <Trash2 size={18} />
               </button>
             </div>
           ) : (
             <button 
-              className="bg-orange-500 text-white hover:bg-orange-600 px-6 py-2 rounded-lg transition duration-300 ease-in-out font-semibold text-sm uppercase tracking-wider"
+              className="bg-orange-500 text-white hover:bg-orange-600 px-2 sm:px-4 py-1 rounded-lg transition duration-300 ease-in-out font-semibold text-xs sm:text-sm uppercase tracking-wider"
               onClick={(e) => {
                 e.stopPropagation();
                 openPopup();

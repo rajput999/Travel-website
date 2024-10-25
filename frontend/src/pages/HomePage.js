@@ -13,7 +13,7 @@ const HomePage = ({isAdmin}) => {
           <img src={backimg} className="h-full min-w-full object-cover" alt="background" />
           <div className="absolute inset-0 bg-black bg-opacity-30"></div>
           <div className="pb-[5rem] md:pb-0 absolute text-white text-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-            <div className="text-3xl md:text-4xl lg:text-5xl font-bold">
+            <div className="text-2xl md:text-4xl lg:text-5xl font-bold">
               PLAN YOUR TRIP WITH LAXMAN TOUR AND TRAVELS
             </div>
           </div>

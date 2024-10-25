@@ -96,8 +96,12 @@ const PopularDestinations = ({ isAdmin }) => {
         <div className="px-5 mb-20">
             <div className="flex justify-between items-center">
                 <div>
-                    <div className="pl-[3.1vw] text-4xl font-bold">Popular Destinations</div>
-                    <div className="pl-[3.1vw] text-lg text-gray-500">From historical cities to natural spectaculars, come see the best of the world!</div>
+                    <div className="pl-[3.1vw] text-2xl md:text-3xl lg:text-4xl font-bold">
+                        Popular Destinations
+                    </div>
+                    <div className="pl-[3.1vw] text-sm md:text-base lg:text-lg text-gray-500">
+                        From historical cities to natural spectaculars, come see the best of the world!
+                    </div>
                 </div>
                 {isAdmin && (
                     <button
