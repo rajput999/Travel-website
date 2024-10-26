@@ -30,6 +30,7 @@ const CustomPackageForm = ({
     fetchCars();
   }, []);
 
+  // ... keeping all the fetch and handle functions the same ...
   const fetchPlaces = async () => {
     try {
       const response = await fetch(`${baseUrl}/places`);
@@ -118,29 +119,40 @@ const CustomPackageForm = ({
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
-      height: '48px',
+      height: '40px',
+      minHeight: '40px',
       borderColor: errors.carType ? '#f87171' : '#d1d5db',
       boxShadow: state.isFocused ? '0 0 0 2px rgba(251,113,133,0.5)' : provided.boxShadow,
       '&:hover': {
         borderColor: errors.carType ? '#f87171' : '#f97316',
       },
-      paddingLeft: '40px',
+      paddingLeft: '32px',
+      '@media (min-width: 640px)': {
+        height: '48px',
+        minHeight: '48px',
+        paddingLeft: '40px',
+      },
     }),
     singleValue: (provided) => ({
       ...provided,
-      display: 'flex',
-      alignItems: 'center',
+      fontSize: '0.875rem',
+      '@media (min-width: 640px)': {
+        fontSize: '1rem',
+      },
     }),
-    option: (provided, state) => ({
+    option: (provided) => ({
       ...provided,
-      display: 'flex',
-      alignItems: 'center',
+      fontSize: '0.875rem',
+      '@media (min-width: 640px)': {
+        fontSize: '1rem',
+      },
     }),
     dropdownIndicator: (provided) => ({
       ...provided,
+      padding: '8px',
       color: '#f97316',
-      '&:hover': {
-        color: '#f97316',
+      '@media (min-width: 640px)': {
+        padding: '12px',
       },
     }),
     indicatorSeparator: () => ({
@@ -149,24 +161,24 @@ const CustomPackageForm = ({
   };
 
   return (
-    <form className="space-y-6" onSubmit={onSubmit}>
+    <form className="space-y-4 sm:space-y-6 p-3 sm:p-6 bg-white rounded-lg shadow-sm" onSubmit={onSubmit}>
       {/* Select Places */}
-      <div>
-        <label className="text-sm sm:text-lg font-semibold text-gray-800 mb-2 block">
+      <div className="space-y-2">
+        <label className="text-sm sm:text-base font-semibold text-gray-800 block">
           Select Places:
         </label>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
           {places.map((place) => (
-            <div key={place._id} className="flex items-center justify-between">
+            <div key={place._id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
               <div className="flex items-center">
                 <input
                   type="checkbox"
                   id={place._id}
-                  className="h-4 w-4 sm:h-5 sm:w-5 rounded border-gray-300 focus:ring-2 focus:ring-orange-500"
+                  className="h-4 w-4 rounded border-gray-300 focus:ring-2 focus:ring-orange-500"
                   onChange={() => handlePlaceSelection(place)}
                   checked={selectedPlaces.includes(place)}
                 />
-                <label htmlFor={place._id} className="ml-2 text-xs sm:text-sm text-gray-700 font-medium">
+                <label htmlFor={place._id} className="ml-2 text-xs sm:text-sm text-gray-700">
                   {place.name}
                 </label>
               </div>
@@ -174,16 +186,16 @@ const CustomPackageForm = ({
                 <button
                   type="button"
                   onClick={() => handleDeletePlace(place._id)}
-                  className="text-red-500 hover:text-red-700"
+                  className="text-red-500 hover:text-red-700 p-1"
                   disabled={isLoading}
                 >
-                  <FaTrash size={16} />
+                  <FaTrash className="h-3 w-3 sm:h-4 sm:w-4" />
                 </button>
               )}
             </div>
           ))}
         </div>
-        {errors.places && <p className="text-red-500 text-sm mt-1">{errors.places}</p>}
+        {errors.places && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.places}</p>}
       </div>
 
       {/* Add New Place (Admin only) */}
@@ -194,46 +206,45 @@ const CustomPackageForm = ({
             value={newPlace}
             onChange={(e) => setNewPlace(e.target.value)}
             placeholder="New place name"
-            className="flex-grow h-10 px-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 text-sm"
+            className="flex-grow h-8 sm:h-10 px-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 text-xs sm:text-sm"
           />
           <button
             type="button"
             onClick={handleAddPlace}
-            className="h-10 px-4 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200"
+            className="h-8 sm:h-10 w-8 sm:w-10 flex items-center justify-center bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200"
             disabled={isLoading}
           >
-            <FaPlus />
+            <FaPlus className="h-3 w-3 sm:h-4 sm:w-4" />
           </button>
         </div>
       )}
 
       {/* Travel Date */}
-      <div>
-        <label className="text-sm sm:text-lg font-semibold text-gray-800 mb-2 block">
+      <div className="space-y-2">
+        <label className="text-sm sm:text-base font-semibold text-gray-800 block">
           Travel Date:
         </label>
         <div className="relative">
           <DatePicker
             selected={travelDate}
             onChange={(date) => setTravelDate(date)}
-            className={`block w-full h-10 sm:h-12 pl-10 pr-4 rounded-lg border ${
+            className={`block w-full h-8 sm:h-10 pl-8 sm:pl-10 pr-4 rounded-lg border ${
               errors.travelDate ? 'border-red-500' : 'border-gray-300'
             } focus:ring-2 focus:ring-orange-500 text-xs sm:text-sm`}
             placeholderText="dd/mm/yyyy"
             dateFormat="dd/MM/yyyy"
             minDate={new Date()}
-            aria-label="Travel Date"
           />
-          <span className="absolute inset-y-0 left-3 sm:left-4 flex items-center pointer-events-none text-orange-500">
-            <Calendar size={16} />
+          <span className="absolute inset-y-0 left-2 sm:left-3 flex items-center pointer-events-none text-orange-500">
+            <Calendar className="h-4 w-4 sm:h-5 sm:w-5" />
           </span>
         </div>
-        {errors.travelDate && <p className="text-red-500 text-sm mt-1">{errors.travelDate}</p>}
+        {errors.travelDate && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.travelDate}</p>}
       </div>
 
       {/* Select Car */}
-      <div>
-        <label className="text-sm sm:text-lg font-semibold text-gray-800 mb-2 block">
+      <div className="space-y-2">
+        <label className="text-sm sm:text-base font-semibold text-gray-800 block">
           Select Car:
         </label>
         <div className="relative">
@@ -244,44 +255,39 @@ const CustomPackageForm = ({
             styles={customStyles}
             placeholder="Select car type"
             isClearable
-            aria-label="Select Car Type"
           />
-          <span className="absolute inset-y-0 left-3 sm:left-4 flex items-center pointer-events-none text-orange-500">
-            <FaCar size={20} />
+          <span className="absolute inset-y-0 left-2 sm:left-3 flex items-center pointer-events-none text-orange-500">
+            <FaCar className="h-4 w-4 sm:h-5 sm:w-5" />
           </span>
         </div>
-        {errors.carType && <p className="text-red-500 text-sm mt-1">{errors.carType}</p>}
+        {errors.carType && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.carType}</p>}
       </div>
 
       {/* Duration */}
-      <div>
-        <label className="text-sm sm:text-lg font-semibold text-gray-800 mb-2 block">
+      <div className="space-y-2">
+        <label className="text-sm sm:text-base font-semibold text-gray-800 block">
           Duration (Days):
         </label>
         <input
           type="number"
-          className={`block w-full h-10 sm:h-12 pl-4 pr-4 rounded-lg border ${
+          className={`block w-full h-8 sm:h-10 px-3 rounded-lg border ${
             errors.duration ? 'border-red-500' : 'border-gray-300'
           } focus:ring-2 focus:ring-orange-500 text-xs sm:text-sm`}
-          placeholder="Duration (Days)"
+          placeholder="Enter duration"
           value={duration}
           onChange={(e) => setDuration(e.target.value)}
           min="1"
-          aria-label="Duration in Days"
         />
-        {errors.duration && <p className="text-red-500 text-sm mt-1">{errors.duration}</p>}
+        {errors.duration && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.duration}</p>}
       </div>
 
       {/* Submit Button */}
-      <div className="mt-6">
-        <button
-          type="submit"
-          className="w-full h-12 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg text-sm sm:text-base transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
-          aria-label="Get Quote"
-        >
-          Get Quote
-        </button>
-      </div>
+      <button
+        type="submit"
+        className="w-full h-10 sm:h-12 mt-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg text-sm sm:text-base transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
+      >
+        Get Quote
+      </button>
     </form>
   );
 };

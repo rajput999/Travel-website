@@ -165,29 +165,31 @@ const PackagesPage = ({isAdmin}) => {
   return (
     <div className="min-h-screen pt-16 md:pt-20 bg-gray-50">
       <div className="container mx-auto px-4 md:px-6 py-10">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-10 text-orange-700">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-center mb-6 sm:mb-8 md:mb-10 text-orange-700">
           Our Exclusive Packages
         </h1>
 
         <div className="w-full mb-8">
           {/* Tab Selection */}
-          <div className="flex justify-center mb-6">
-            <div className="flex rounded-full bg-orange-100 p-1 shadow-md">
+          <div className="flex justify-center mb-4 sm:mb-6">
+            <div className="flex rounded-full bg-orange-100 p-0.5 sm:p-1 shadow-md">
               <button
-                className={`inline-flex items-center justify-center rounded-full px-4 sm:px-6 py-2 sm:py-3 text-base sm:text-lg font-semibold transition-all ${tab === 'fixed'
+                className={`inline-flex items-center justify-center rounded-full px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 md:py-3 text-sm sm:text-base md:text-lg font-semibold transition-all ${
+                  tab === 'fixed'
                     ? 'bg-orange-500 text-white shadow-lg'
                     : 'text-orange-600 hover:bg-orange-200'
-                  }`}
+                }`}
                 onClick={() => setTab('fixed')}
                 aria-pressed={tab === 'fixed'}
               >
                 Fixed Packages
               </button>
               <button
-                className={`inline-flex items-center justify-center rounded-full px-4 sm:px-6 py-2 sm:py-3 text-base sm:text-lg font-semibold transition-all ${tab === 'custom'
+                className={`inline-flex items-center justify-center rounded-full px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 md:py-3 text-sm sm:text-base md:text-lg font-semibold transition-all ${
+                  tab === 'custom'
                     ? 'bg-orange-500 text-white shadow-lg'
                     : 'text-orange-600 hover:bg-orange-200'
-                  }`}
+                }`}
                 onClick={() => setTab('custom')}
                 aria-pressed={tab === 'custom'}
               >
@@ -259,13 +261,13 @@ const PackagesPage = ({isAdmin}) => {
           )}
 
           {tab === 'custom' && (
-            <div className="w-full mx-auto bg-white shadow-lg rounded-xl border border-orange-200 p-6">
-              <div className="p-6 bg-gradient-to-r from-orange-500 to-orange-400 text-white rounded-t-xl">
+            <div className="w-full max-w-6xl mx-auto bg-white shadow-lg rounded-xl border border-orange-200 p-6">
+              <div className="p-3 sm:p-6 bg-gradient-to-r from-orange-500 to-orange-400 text-white rounded-t-xl">
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-bold">
                   Create Your Custom Package
                 </h2>
               </div>
-              <div className="p-6">
+              <div className="">
                 <CustomPackageForm
                   selectedPlaces={selectedPlaces}
                   setSelectedPlaces={setSelectedPlaces}
@@ -315,3 +317,5 @@ const PackagesPage = ({isAdmin}) => {
 };
 
 export default PackagesPage;
+
+
