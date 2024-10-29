@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { Menu, X } from 'lucide-react';
 
 const Navbar = ({ isAuthenticated }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -97,17 +98,18 @@ const Navbar = ({ isAuthenticated }) => {
             <button className={`font-semibold text-base ${!isHomepage ? 'text-orange-500' : 'text-white'} border-2 border-orange-500 py-2 px-6 rounded-full hover:bg-orange-500 hover:text-white transition-colors duration-300`}>Sign Up</button>
           </NavLink>
         )}
-        {/* <NavLink to="/book" onClick={closeMenu}>
-          <button className={`ml-4 font-semibold text-base bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-6 rounded-full hover:scale-105 transform transition-transform duration-300 hidden md:inline`}>
-            BOOK NOW
-          </button>
-        </NavLink> */}
       </div>
-      <div className="md:hidden flex flex-col cursor-pointer" onClick={toggleMenu} aria-label="Toggle menu">
-        <div className={`w-6 h-[3px] bg-white mb-1 transition-all ${isOpen ? 'rotate-45 translate-y-1.5' : ''}`}></div>
-        <div className={`w-6 h-[3px] bg-white mb-1 transition-all ${isOpen ? 'opacity-0' : ''}`}></div>
-        <div className={`w-6 h-[3px] bg-white transition-all ${isOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></div>
-      </div>
+      <button 
+        className="md:hidden flex items-center justify-center" 
+        onClick={toggleMenu}
+        aria-label="Toggle menu"
+      >
+        {isOpen ? (
+          <X className={`w-6 h-6 ${isHomepage ? 'text-white' : 'text-black'}`} />
+        ) : (
+          <Menu className={`w-6 h-6 ${isHomepage ? 'text-white' : 'text-black'}`} />
+        )}
+      </button>
     </header>
   );
 };
