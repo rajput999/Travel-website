@@ -82,15 +82,15 @@ const Testimonials = () => {
 
   return (
     <div className="w-full min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="container mx-auto sm:px-6 lg:px-8 py-6">
         {/* Testimonials Display Section - Unchanged */}
         <div className="my-8">
           <h2 className="text-3xl font-semibold mb-6 text-center text-gray-800">What Our Clients Say</h2>
-          <div className="flex gap-6 overflow-x-auto pb-6 scrollbar-hide">
+          <div className="flex overflow-x-auto pb-6 pt-6 scrollbar-hide">
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
-                className="min-w-[250px] max-w-[250px] bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105"
+                className="ml-5 min-w-[250px] max-w-[250px] bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105"
               >
                 <div className="relative h-48 overflow-hidden">
                   <img

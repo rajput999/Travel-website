@@ -30,11 +30,11 @@ const HomePage = ({isAdmin}) => {
         </div>
       </div>
 
-      <div className="px-[1vw] lg:px-[10vw]">
+      <div className=" md: lg:px-[10vw]">
         <PopularDestinations  isAdmin={isAdmin}/>
       </div>
 
-      <div className="px-[1vw] lg:px-[10vw]">
+      <div className=" lg:px-[10vw]">
         <Testimonials />
       </div>
     </div>

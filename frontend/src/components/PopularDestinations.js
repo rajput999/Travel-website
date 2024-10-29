@@ -93,8 +93,8 @@ const PopularDestinations = ({ isAdmin }) => {
     };
 
     return (
-        <div className="px-5 mb-20">
-            <div className="flex justify-between items-center">
+        <div className=" mb-20">
+            <div className=" sm:px-5 flex justify-between items-center">
                 <div>
                     <div className="pl-[3.1vw] text-2xl md:text-3xl lg:text-4xl font-bold">
                         Popular Destinations
