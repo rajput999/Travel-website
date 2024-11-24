@@ -5,7 +5,7 @@ Welcome to the repository for the Travel Website created for our family business
 
 ## Demo
 
-Check out the live demo of the website [here](https://travel-website-frontend-86un.onrender.com/).
+Check out the live demo of the website [here]
 
 ## Features
 
