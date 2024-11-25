@@ -114,7 +114,7 @@ const PopularDestinations = ({ isAdmin }) => {
             </div>
 
             <div className="w-full overflow-x-scroll no-scrollbar" ref={scrollContainerRef}>
-                <div className="flex mt-10 w-max">
+                <div className="flex mt-10 w-max pb-5 ">
                     {destinations.map(dest => (
                         <PopularDestinationsCard
                             key={dest._id}
