@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
@@ -7,6 +7,14 @@ import { Menu, X } from 'lucide-react';
 const Navbar = ({ isAuthenticated }) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navRef = useRef(null);
+  const [navHeight, setNavHeight] = useState(0);
+
+  useEffect(() => {
+    if (navRef.current) {
+      setNavHeight(navRef.current.scrollHeight);
+    }
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -24,7 +32,16 @@ const Navbar = ({ isAuthenticated }) => {
       <div className={`text-2xl font-bold transition-transform transform hover:scale-110 text-orange-600`}>
         <NavLink to="/" onClick={closeMenu}>Travel.</NavLink>
       </div>
-      <nav className={`md:flex ${isOpen ? 'flex' : 'hidden'} flex-col md:flex-row md:items-center absolute md:static top-full md:top-0 left-0 w-full md:w-auto transition-all duration-500 ${!isHomepage ? 'bg-white' : 'bg-transparent backdrop-blur-md'}`}>
+      <nav 
+        ref={navRef}
+        style={{
+          maxHeight: isOpen ? `${navHeight}px` : '0',
+        }}
+        className={`md:flex flex-col md:flex-row md:items-center absolute md:relative top-full md:top-0 left-0 w-full md:w-auto 
+          transition-all duration-300 ease-in-out overflow-hidden md:overflow-visible md:max-h-none
+          ${!isHomepage ? 'bg-white shadow-lg md:shadow-none' : 'bg-black/30 backdrop-blur-md'}
+          opacity-0 md:opacity-100 ${isOpen ? '!opacity-100' : ''}`}
+      >
         <ul className="flex flex-col md:flex-row md:space-x-8 space-y-4 md:space-y-0 font-semibold text-lg md:text-base p-4 md:p-0 justify-center items-center">
           <li>
             <NavLink
@@ -100,14 +117,14 @@ const Navbar = ({ isAuthenticated }) => {
         )}
       </div>
       <button 
-        className="md:hidden flex items-center justify-center" 
+        className="md:hidden flex items-center justify-center transition-transform duration-300" 
         onClick={toggleMenu}
         aria-label="Toggle menu"
       >
         {isOpen ? (
-          <X className={`w-6 h-6 ${isHomepage ? 'text-white' : 'text-black'}`} />
+          <X className={`w-6 h-6 ${isHomepage ? 'text-white' : 'text-black'} transition-transform duration-300`} />
         ) : (
-          <Menu className={`w-6 h-6 ${isHomepage ? 'text-white' : 'text-black'}`} />
+          <Menu className={`w-6 h-6 ${isHomepage ? 'text-white' : 'text-black'} transition-transform duration-300`} />
         )}
       </button>
     </header>

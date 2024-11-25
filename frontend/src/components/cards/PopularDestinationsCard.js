@@ -22,7 +22,7 @@ const PopularDestinationsCard = ({ destination, isAdmin, onEdit, onDelete }) => 
   return (
     <>
       <div 
-        className="ml-[3vw] w-full max-w-[80vw] sm:max-w-sm bg-white overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out mx-auto my-5 rounded-lg border border-gray-200 cursor-pointer relative"
+        className="ml-[3vw] w-full max-w-[80vw] sm:max-w-sm bg-white overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out mx-auto my-5 rounded-lg border border-gray-300 cursor-pointer relative"
         onClick={openPopup}
       >
         <div className="relative pb-20">
