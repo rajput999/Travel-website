@@ -1,9 +1,15 @@
 const express = require('express');
-const getcars = require('../controllers/cars');
+const carController = require('../controllers/cars');
 
 const router = express.Router();
 
 // Car Routes
-router.get('/', getcars); // Get cars
+router.get('/', carController.getCars); // Get cars
+
+router.post('/', carController.createCar);
+
+router.put('/:id', carController.updateCar);
+
+router.delete('/:id', carController.deleteCar);
 
 module.exports = router;

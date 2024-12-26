@@ -15,6 +15,16 @@ const carOptionSchema = new mongoose.Schema({
     type: Number,
     required: true,
     default: 0 
+  },
+  wheelers: {
+    type: Number,
+    required: false,
+    default: 0,
+    min: 0,
+    validate: {
+      validator: Number.isInteger,
+      message: '{VALUE} is not an integer value for wheelers'
+    }
   }
 }, {
   timestamps: true 

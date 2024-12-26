@@ -26,7 +26,7 @@ const App = () => {
 
   return (
     <div className=''>
-      <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+      <Navbar isAuthenticated={isAuthenticated} isAdmin={isAdmin} />
       <Routes>
         <Route path="/" element={<HomePage isAdmin={isAdmin}/>} />
         <Route path="/home" element={<HomePage isAdmin={isAdmin} />} />
