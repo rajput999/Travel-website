@@ -47,7 +47,7 @@ const PopularDestinations = ({ isAdmin }) => {
     const handleEdit = async (updatedDestination) => {
         console.log(updatedDestination);
         const { id, ...destinationWithoutId } = updatedDestination;
-    
+
         try {
             const response = await fetch(`${baseUrl}/popular-destinations/${id}`, {
                 method: 'PUT',
@@ -64,7 +64,7 @@ const PopularDestinations = ({ isAdmin }) => {
             console.error("Error updating destination:", error);
         }
     };
-    
+
 
     const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this destination?")) {
@@ -114,17 +114,26 @@ const PopularDestinations = ({ isAdmin }) => {
             </div>
 
             <div className="w-full overflow-x-scroll no-scrollbar" ref={scrollContainerRef}>
-                <div className="flex mt-10 w-max pb-5 ">
-                    {destinations.map(dest => (
-                        <PopularDestinationsCard
-                            key={dest._id}
-                            destination={dest}
-                            isAdmin={isAdmin}
-                            onEdit={() => setEditingDestination(dest)}
-                            onDelete={() => handleDelete(dest._id)}
-                        />
-                    ))}
+                <div className="flex mt-10 w-max pb-5">
+                    {Array.isArray(destinations) && destinations.length > 0 ? (
+                        destinations.map((dest) => (
+                            <PopularDestinationsCard
+                                key={dest._id}
+                                destination={dest}
+                                isAdmin={isAdmin}
+                                onEdit={() => setEditingDestination(dest)}
+                                onDelete={() => handleDelete(dest._id)}
+                            />
+                        ))
+                    ) : (
+                        <div className="text-red-500 text-center w-full">
+                            {Array.isArray(destinations)
+                                ? "No destinations available to display."
+                                : "Error fetching destinations. Please try again later."}
+                        </div>
+                    )}
                 </div>
+
             </div>
 
             {showAddForm && (

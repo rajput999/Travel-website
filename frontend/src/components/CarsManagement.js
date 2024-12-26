@@ -43,13 +43,12 @@ const CarManagementModal = ({ isOpen, onClose }) => {
   };
 
   const handleSubmit = async (e) => {
-    console.log(`${baseUrl}/cars/${selectedCar._id}`)
     e.preventDefault();
     try {
       if (selectedCar) {
         await axios.put(`${baseUrl}/cars/${selectedCar._id}`, formData);
       } else {
-        await axios.post('/api/cars', formData);
+        await axios.post(`${baseUrl}/cars`, formData);
       }
       fetchCars();
       resetForm();

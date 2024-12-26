@@ -1,41 +1,18 @@
-import React, { useState, forwardRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PackageCard from '../components/cards/PackageCard';
 import CustomPackageForm from '../components/cards/CustomPackageForm';
 import FixedPkgPopup from '../components/cards/FixedPkgPopup';
-import DatePicker from 'react-datepicker';
-import Select from 'react-select';
-import { FaCar , FaPlus} from 'react-icons/fa';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { FaPlus} from 'react-icons/fa';
 import { ClipLoader } from 'react-spinners';
-// import 'react-datepicker/dist/react-datepicker.css';
 import '../index.css';
 import AddNewPackageForm from '../components/admincomponents/AddNewPackageForm';
+import DatePicker from '../components/Datepicker';
+import CarSelect from '../components/CarSelect';
 
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
-const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
-  <div className="relative w-full sm:w-64">
-    <input
-      type="text"
-      onClick={onClick}
-      ref={ref}
-      value={value}
-      readOnly
-      aria-label="Select Travel Date"
-      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white text-gray-700"
-      placeholder="Select Travel Date"
-    />
-    <CalendarIcon
-      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-      size={20}
-    />
-  </div>
-));
-
-
 const PackagesPage = ({isAdmin}) => {
-  console.log(isAdmin)
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [carType, setCarType] = useState('');
   const [allcars, setAllcars] = useState([]);
@@ -45,11 +22,9 @@ const PackagesPage = ({isAdmin}) => {
   const [selectedPlaces, setSelectedPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
   const [allpackages, setAllPackages] = useState([]);
-  const [errors, setErrors] = useState({});
   const [showAddPackageForm, setShowAddPackageForm] = useState(false);
   const [editingPackage, setEditingPackage] = useState(null);
 
-  console.log(baseUrl)
   useEffect(() => {
     const fetchPackages = async () => {
       try {
@@ -128,40 +103,6 @@ const PackagesPage = ({isAdmin}) => {
     }, 2000);
   };
 
-
-  const customStyles = {
-    control: (provided, state) => ({
-      ...provided,
-      height: '48px',
-      borderColor: errors.carType ? '#f87171' : '#d1d5db',
-      boxShadow: state.isFocused ? '0 0 0 2px rgba(251,113,133,0.5)' : provided.boxShadow,
-      '&:hover': {
-        borderColor: errors.carType ? '#f87171' : '#f97316',
-      },
-      paddingLeft: '40px', // To accommodate the icon
-    }),
-    singleValue: (provided) => ({
-      ...provided,
-      display: 'flex',
-      alignItems: 'center',
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      display: 'flex',
-      alignItems: 'center',
-    }),
-    dropdownIndicator: (provided) => ({
-      ...provided,
-      color: '#f97316',
-      '&:hover': {
-        color: '#f97316',
-      },
-    }),
-    indicatorSeparator: () => ({
-      display: 'none',
-    }),
-  };
-
   return (
     <div className="min-h-screen pt-16 md:pt-20 bg-gray-50">
       <div className="container mx-auto px-4 md:px-6 py-10">
@@ -202,29 +143,20 @@ const PackagesPage = ({isAdmin}) => {
             <>
               {/* Enhanced Date and Car Selection */}
               <div className="mb-8 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
-                <DatePicker
-                  selected={travelDate}
-                  onChange={(date) => setTravelDate(date)}
-                  customInput={<CustomDateInput />}
-                  dateFormat="dd MMMM yyyy"
-                  minDate={new Date()}
-                  aria-label="Travel Date"
-                />
+
+            <DatePicker
+              selectedDate={travelDate}
+              onChange={(date) => setTravelDate(date)}
+            />
 
                 <div className="w-full sm:w-64">
                   <div className="relative">
-                    <Select
-                      options={allcars}
-                      value={allcars.find((option) => option.value === carType)}
-                      onChange={(selectedOption) => setCarType(selectedOption ? selectedOption.value : '')}
-                      styles={customStyles}
-                      placeholder="Select car type"
-                      isClearable
-                      aria-label="Select Car Type"
-                    />
-                    <span className="absolute inset-y-0 left-3 sm:left-4 flex items-center pointer-events-none text-orange-500">
-                      <FaCar size={20} />
-                    </span>
+                    
+                    <CarSelect
+            selectedCar={carType}
+            setSelectedCar={setCarType}
+            allCars={allcars}
+          />
                   </div>
                 </div>
               </div>

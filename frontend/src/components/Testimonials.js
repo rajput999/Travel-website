@@ -87,7 +87,7 @@ const Testimonials = () => {
         <div className="my-8">
           <h2 className="text-3xl font-semibold mb-6 text-center text-gray-800">What Our Clients Say</h2>
           <div className="flex overflow-x-auto pb-6 pt-6 scrollbar-hide">
-            {testimonials.map((testimonial, index) => (
+            {Array.isArray(testimonials) && testimonials.length > 0 ? testimonials.map((testimonial, index) => (
               <div
                 key={index}
                 className="ml-5 min-w-[250px] max-w-[250px] bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105"
@@ -115,7 +115,13 @@ const Testimonials = () => {
                   <p className="text-gray-600 text-sm">{testimonial.content}</p>
                 </div>
               </div>
-            ))}
+            )):(
+              <div className="text-red-500 text-center w-full">
+                  {Array.isArray(testimonials)
+                      ? "No testimonials available to display."
+                      : "Error fetching testimonials. Please try again later."}
+              </div>
+          )}
           </div>
         </div>
 

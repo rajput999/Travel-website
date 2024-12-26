@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { FaCar, FaPlus, FaTrash } from 'react-icons/fa';
-import { Calendar } from 'lucide-react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import Select from 'react-select';
+import { FaPlus, FaTrash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import DatePicker from '../Datepicker';
+import CarSelect from '../CarSelect';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -116,50 +114,6 @@ const CustomPackageForm = ({
     }
   };
 
-  const customStyles = {
-    control: (provided, state) => ({
-      ...provided,
-      height: '40px',
-      minHeight: '40px',
-      borderColor: errors.carType ? '#f87171' : '#d1d5db',
-      boxShadow: state.isFocused ? '0 0 0 2px rgba(251,113,133,0.5)' : provided.boxShadow,
-      '&:hover': {
-        borderColor: errors.carType ? '#f87171' : '#f97316',
-      },
-      paddingLeft: '32px',
-      '@media (min-width: 640px)': {
-        height: '48px',
-        minHeight: '48px',
-        paddingLeft: '40px',
-      },
-    }),
-    singleValue: (provided) => ({
-      ...provided,
-      fontSize: '0.875rem',
-      '@media (min-width: 640px)': {
-        fontSize: '1rem',
-      },
-    }),
-    option: (provided) => ({
-      ...provided,
-      fontSize: '0.875rem',
-      '@media (min-width: 640px)': {
-        fontSize: '1rem',
-      },
-    }),
-    dropdownIndicator: (provided) => ({
-      ...provided,
-      padding: '8px',
-      color: '#f97316',
-      '@media (min-width: 640px)': {
-        padding: '12px',
-      },
-    }),
-    indicatorSeparator: () => ({
-      display: 'none',
-    }),
-  };
-
   return (
     <form className="space-y-4 sm:space-y-6 p-3 sm:p-6 bg-white rounded-lg shadow-sm" onSubmit={onSubmit}>
       {/* Select Places */}
@@ -225,19 +179,11 @@ const CustomPackageForm = ({
           Travel Date:
         </label>
         <div className="relative">
+
           <DatePicker
-            selected={travelDate}
-            onChange={(date) => setTravelDate(date)}
-            className={`block w-full h-8 sm:h-10 pl-8 sm:pl-10 pr-4 rounded-lg border ${
-              errors.travelDate ? 'border-red-500' : 'border-gray-300'
-            } focus:ring-2 focus:ring-orange-500 text-xs sm:text-sm`}
-            placeholderText="dd/mm/yyyy"
-            dateFormat="dd/MM/yyyy"
-            minDate={new Date()}
-          />
-          <span className="absolute inset-y-0 left-2 sm:left-3 flex items-center pointer-events-none text-orange-500">
-            <Calendar className="h-4 w-4 sm:h-5 sm:w-5" />
-          </span>
+              selectedDate={travelDate}
+              onChange={(date) => setTravelDate(date)}
+            />
         </div>
         {errors.travelDate && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.travelDate}</p>}
       </div>
@@ -248,17 +194,11 @@ const CustomPackageForm = ({
           Select Car:
         </label>
         <div className="relative">
-          <Select
-            options={allcars}
-            value={allcars.find((option) => option.value === carType)}
-            onChange={(selectedOption) => setCarType(selectedOption ? selectedOption.value : '')}
-            styles={customStyles}
-            placeholder="Select car type"
-            isClearable
+          <CarSelect
+            selectedCar={carType}
+            setSelectedCar={setCarType}
+            allCars={allcars}
           />
-          <span className="absolute inset-y-0 left-2 sm:left-3 flex items-center pointer-events-none text-orange-500">
-            <FaCar className="h-4 w-4 sm:h-5 sm:w-5" />
-          </span>
         </div>
         {errors.carType && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.carType}</p>}
       </div>
