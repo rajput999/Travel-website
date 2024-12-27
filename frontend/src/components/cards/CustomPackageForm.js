@@ -197,6 +197,8 @@ const CustomPackageForm = ({
           <CarSelect
             selectedCar={carType}
             setSelectedCar={setCarType}
+            error={errors}
+            setError={setErrors}
             allCars={allcars}
           />
         </div>

@@ -24,6 +24,7 @@ const PackagesPage = ({isAdmin}) => {
   const [allpackages, setAllPackages] = useState([]);
   const [showAddPackageForm, setShowAddPackageForm] = useState(false);
   const [editingPackage, setEditingPackage] = useState(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -155,6 +156,8 @@ const PackagesPage = ({isAdmin}) => {
                     <CarSelect
             selectedCar={carType}
             setSelectedCar={setCarType}
+            error={error}
+            setError={setError}
             allCars={allcars}
           />
                   </div>

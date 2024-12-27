@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FaCar } from 'react-icons/fa';
+import { FaCar, FaChevronDown } from 'react-icons/fa';
 
 const CarSelect = ({ 
   selectedCar, 
@@ -7,20 +7,21 @@ const CarSelect = ({
   error, 
   setError, 
   allCars, 
-  islabel=false
+  islabel = false 
 }) => {
-    const [isCarDropdownOpen, setIsCarDropdownOpen] = useState(false);
+  const [isCarDropdownOpen, setIsCarDropdownOpen] = useState(false);
 
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-          if (!event.target.closest('.car-dropdown')) {
-            setIsCarDropdownOpen(false);
-          }
-        };
-    
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-      }, []);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.car-dropdown')) {
+        setIsCarDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const getSelectedCarLabel = () => {
     const car = allCars.find(car => car.value === selectedCar);
     return car ? car.label : 'Select car';
@@ -40,7 +41,7 @@ const CarSelect = ({
           }`}
         >
           <span className="truncate">{getSelectedCarLabel()}</span>
-          <span className="ml-2">▼</span>
+          <FaChevronDown className="ml-2 text-orange-500" size={14} />
         </button>
         <span className="absolute inset-y-0 left-2 sm:left-3 flex items-center pointer-events-none text-orange-500">
           <FaCar size={16} />
